@@ -11,10 +11,11 @@ var thrust = 0
 var orientation = Vector2(0,-1)
 var angular_vel = 0.0
 
+
 func _ready() -> void:
 	self.position = get_window().size/2
 	self.position.y +=100
-	#self.rotation = PI/2
+
 
 func get_input():
 	var up = Input.is_action_pressed('ui_up')
