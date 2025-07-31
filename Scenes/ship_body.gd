@@ -6,14 +6,8 @@ extends CharacterBody2D
 
 var gravity = Vector2(0,1)*a_scale
 var thrust = Vector2(0,0)*thrust_scale
+var thrust_rotate = Vector2(0,0)*thrust_scale
 
-#func get_input():
-	#pass
-
-
-#func _physics_process(delta: float) -> void:
-	#self.velocity = delta*gravity
-	#self.position = delta*self.velocity
 func _input(event: InputEvent) -> void:
 	var up = Input.is_action_pressed('ui_up')
 	var down = Input.is_action_pressed('ui_down')
@@ -24,5 +18,6 @@ func _input(event: InputEvent) -> void:
 	
 func _physics_process(delta: float) -> void:
 	self.velocity += delta*(gravity+thrust)
-	self.position += delta*self.velocity
+	#self.position += delta*self.velocity
+	var collision_info = move_and_collide(self.velocity*delta)
 	
