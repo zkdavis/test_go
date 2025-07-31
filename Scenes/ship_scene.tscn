@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://bi3dox85cb7bv"]
+[gd_scene load_steps=6 format=3 uid="uid://bi3dox85cb7bv"]
 
 [ext_resource type="Script" uid="uid://xd4i7fvjdw7i" path="res://Scenes/ship_scene.gd" id="1_8g17m"]
 [ext_resource type="Texture2D" uid="uid://duaxdpmr8y1yu" path="res://Assets/Sprites/Spaceship_all.png" id="1_aah3r"]
@@ -8,18 +8,27 @@
 radius = 19.0
 height = 92.0
 
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_eju44"]
+distance = -640.0
+
 [node name="Ship_Scene" type="Node2D"]
 script = ExtResource("1_8g17m")
 
 [node name="CharacterBody2D" type="CharacterBody2D" parent="."]
+collision_layer = 3
+collision_mask = 3
+safe_margin = 1.709
 script = ExtResource("2_eju44")
 
 [node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D"]
-position = Vector2(394, 304)
 scale = Vector2(0.0876494, 0.135193)
 texture = ExtResource("1_aah3r")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
 visibility_layer = 3
-position = Vector2(393, 306)
 shape = SubResource("CapsuleShape2D_pb8kf")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("WorldBoundaryShape2D_eju44")
