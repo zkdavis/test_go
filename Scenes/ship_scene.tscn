@@ -12,9 +12,8 @@ height = 92.0
 script = ExtResource("1_8g17m")
 
 [node name="CharacterBody2D" type="CharacterBody2D" parent="."]
-collision_layer = 3
-collision_mask = 3
-safe_margin = 1.709
+collision_layer = 2
+collision_mask = 7
 script = ExtResource("2_eju44")
 
 [node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D"]
