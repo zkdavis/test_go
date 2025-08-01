@@ -16,7 +16,7 @@ func _ready() -> void:
 
 func _update_scale():
 	$RigidBody2D/Sprite2D.scale = Vector2.ONE * self.radius
-	$RigidBody2D/CollisionShape2D.shape.radius = radius
+	$RigidBody2D/CollisionShape2D.shape.radius = 20*self.radius
 
 func setup(mass_ : float, radius_ : float, 
 init_pos_ = Vector2(0,0), init_vel_ = Vector2(0,0), omega_ = 0) -> void:
@@ -43,4 +43,7 @@ func apply_force(f : Vector2) -> void:
 	body.apply_central_force(f)
 
 func _physics_process(delta: float) -> void:
-	body.move_and_collide(body.linear_velocity)
+	var col_info = body.move_and_collide(body.linear_velocity)
+	if col_info:
+		body.linear_velocity = -body.linear_velocity
+		

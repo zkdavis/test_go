@@ -6,10 +6,10 @@ var ob_scene : PackedScene = load("res://Scenes/orbiting_body.tscn")
 func _ready() -> void:
 	var p1 = ob_scene.instantiate() as Orbiting_Body
 	$Planets.add_child(p1)
-	p1.setup(1.0, 0.5, Vector2(400, 400), Vector2(0, 0.5))
+	p1.setup(100.0, 0.5, Vector2(400, 400), Vector2(0, 0.0))
 	var p2 = ob_scene.instantiate() as Orbiting_Body
 	$Planets.add_child(p2)
-	p2.setup(1.0, 0.5, Vector2(800, 400), Vector2(0, -0.5))	
+	p2.setup(100.0, 0.5, Vector2(800, 400), Vector2(0, -0.0))	
 
 func calculate_gravitational_force(target : Orbiting_Body, source : Orbiting_Body) -> Vector2:
 	var G = 10000 ## GConstant
