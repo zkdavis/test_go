@@ -14,6 +14,7 @@ func _ready() -> void:
 	for planet in $Planets.get_children():
 		bodies.append(planet)
 
+
 func calculate_gravitational_force(target : Orbiting_Body, source : Orbiting_Body) -> Vector2:
 	var G = 10000 ## GConstant
 	var direction = target.get_pos() - source.get_pos()

@@ -1,8 +1,8 @@
 extends Node2D
 
-@export var a_scale = 10000
+@export var a_scale = 0
 @export var thrust_scale = 10
-@export var thrust_scale_rotate = 0.1
+@export var thrust_scale_rotate = 0.01
 
 var gravity = Vector2(0,1)*a_scale
 var main_thrust = 0*thrust_scale
@@ -28,15 +28,15 @@ func get_input():
 	if down:
 		main_thrust += -1*thrust_scale
 	if right:
-		$CharacterBody2D.rotation += 0.01
-		#thrust_rotate += clamp(1.0*thrust_scale_rotate,-3*thrust_scale_rotate,3*thrust_scale_rotate)
+		#$CharacterBody2D.rotation += 0.01
+		thrust_rotate += clamp(1.0*thrust_scale_rotate,-3*thrust_scale_rotate,3*thrust_scale_rotate)
 	if left:
-		$CharacterBody2D.rotation -= 0.01
-		#thrust_rotate += clamp(-1.0*thrust_scale_rotate,-3*thrust_scale_rotate,3*thrust_scale_rotate)
+		#$CharacterBody2D.rotation -= 0.01
+		thrust_rotate += clamp(-1.0*thrust_scale_rotate,-3*thrust_scale_rotate,3*thrust_scale_rotate)
 		
 func _physics_process(delta: float) -> void:
-	#get_input()
-	#thrust = main_thrust
+	get_input()
+	thrust = main_thrust
 	##apply rotation to thrust
 	#var w_size = get_window().size/2
 	##var center_r = self.position - Vector2(w_size[0],w_size[1])
@@ -44,10 +44,10 @@ func _physics_process(delta: float) -> void:
 		##gravity = -a_scale*center_r/(center_r.length()**(5/2))
 	##else:
 		##gravity = Vector2(0,0)
-	#$CharacterBody2D.velocity += delta*(gravity + (thrust*Vector2(sin(self.rotation),-cos(self.rotation))))
+	$CharacterBody2D.velocity += delta*(gravity + (thrust*Vector2(sin($CharacterBody2D.rotation),-cos($CharacterBody2D.rotation))))
 	#
-	##self.angular_vel += thrust_rotate*delta
-	##self.rotate(self.angular_vel*delta)
+	self.angular_vel += thrust_rotate*delta
+	$CharacterBody2D.rotate(self.angular_vel*delta)
 	##if(abs(self.angular_vel) < 2*delta*thrust_scale_rotate and abs(self.thrust_rotate)<3*thrust_scale_rotate ):
 		##self.angular_vel*=exp(-3*delta)
 		##self.thrust_rotate=0
@@ -56,9 +56,9 @@ func _physics_process(delta: float) -> void:
 			##if rotation <0.0001:
 				##rotation = 0
 			##
-	#var collision_info = $CharacterBody2D.move_and_collide($CharacterBody2D.velocity*delta)
-	#if collision_info:
-		##basic collision for now. needs logic
-		#$CharacterBody2D.velocity = Vector2(0,0)
-		#
-		pass
+	var collision_info = $CharacterBody2D.move_and_collide($CharacterBody2D.velocity*delta)
+	if collision_info:
+		#basic collision for now. needs logic
+		$CharacterBody2D.velocity = Vector2(0,0)
+		
+		

@@ -17,9 +17,11 @@ func _ready() -> void:
 	body.custom_integrator = true
 	body.set_use_custom_integrator(true)
 
+
 func _update_scale(radius_):
 	$"Planet Physics Body"/Sprite2D.scale = Vector2.ONE*radius_
 	$"Planet Physics Body"/CollisionShape2D.shape.radius = MAGIC_FUDGE_FACTOR_DUE_TO_IMAGE_SIZE*radius_
+
 
 func setup(mass_ : float, radius_ : float, 
 init_pos_ = Vector2(0,0), init_vel_ = Vector2(0,0), omega_ = 0) -> void:
@@ -44,6 +46,7 @@ func get_omega() -> float:
 	
 func clear_force():
 	body.force = Vector2.ZERO
+
 
 func apply_force(f : Vector2) -> void:
 	body.force += f
