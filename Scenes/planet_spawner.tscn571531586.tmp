@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://crc5pm0kvpxt2"]
+
+[ext_resource type="Script" uid="uid://csguwcwg5sjv2" path="res://planet_spawner.gd" id="1_up0pc"]
+
+[node name="Planet Spawner" type="Node2D"]
+script = ExtResource("1_up0pc")
+
+[node name="Planets" type="Node2D" parent="."]
