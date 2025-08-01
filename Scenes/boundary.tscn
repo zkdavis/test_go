@@ -1,6 +1,7 @@
 [gd_scene load_steps=2 format=3 uid="uid://bc8ofs1jjj0oh"]
 
-[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_vw5u6"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vw5u6"]
+size = Vector2(242, 18)
 
 [node name="boundary" type="Node2D"]
 
@@ -8,4 +9,10 @@
 collision_mask = 255
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D"]
-shape = SubResource("WorldBoundaryShape2D_vw5u6")
+shape = SubResource("RectangleShape2D_vw5u6")
+
+[node name="ColorRect" type="ColorRect" parent="RigidBody2D"]
+offset_left = -120.0
+offset_top = -8.0
+offset_right = 120.0
+offset_bottom = 8.0
