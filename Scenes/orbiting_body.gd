@@ -26,3 +26,15 @@ init_pos_ = Vector2(0,0), init_vel_ = Vector2(0,0), omega_ = 0) -> void:
 	body.angular_velocity = omega_
 	body.position = init_pos_
 	body.linear_velocity = init_vel_
+
+func get_mass() -> float:
+	return body.mass
+
+func get_pos() -> Vector2:
+	return body.position
+
+func get_radius() -> float:
+	return radius
+	
+func get_omega() -> float:
+	return body.angular_velocity
