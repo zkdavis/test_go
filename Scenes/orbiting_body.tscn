@@ -1,28 +1,28 @@
 [gd_scene load_steps=5 format=3 uid="uid://bf0hkkku3mui8"]
 
+[ext_resource type="Script" uid="uid://cegine1svbxw7" path="res://Scenes/orbiting_body.gd" id="1_3i8d7"]
 [ext_resource type="Texture2D" uid="uid://c0uu87bycth4" path="res://Assets/Sprites/Planet_test.png" id="1_185dv"]
-[ext_resource type="Script" uid="uid://c46v5jxaeujxt" path="res://Scenes/rigid_body_2d.gd" id="2_36pqf"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_185dv"]
 friction = 0.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_0egr7"]
 
-[node name="orbiting_body" type="Node2D"]
+[node name="Orbiting Body" type="Node2D"]
+script = ExtResource("1_3i8d7")
 
 [node name="RigidBody2D" type="RigidBody2D" parent="."]
 physics_material_override = SubResource("PhysicsMaterial_185dv")
 can_sleep = false
 linear_damp_mode = 1
 angular_damp_mode = 1
-script = ExtResource("2_36pqf")
 
 [node name="Sprite2D" type="Sprite2D" parent="RigidBody2D"]
-position = Vector2(6.5, -1.5)
+position = Vector2(-1, 1)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("1_185dv")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D"]
-position = Vector2(4.00006, -0.999969)
+position = Vector2(6.10352e-05, 1.52588e-05)
 scale = Vector2(5.24, 5.24)
 shape = SubResource("CircleShape2D_0egr7")
