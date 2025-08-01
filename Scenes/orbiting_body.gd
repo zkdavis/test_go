@@ -1,6 +1,7 @@
 class_name Orbiting_Body
 extends Node2D
 
+var draw_pot: bool = true
 var radius: float = 1.0
 const MAGIC_FUDGE_FACTOR_DUE_TO_IMAGE_SIZE = 20
 @onready var body := $"Planet Physics Body"
@@ -16,7 +17,39 @@ func _ready() -> void:
 	body.position = Vector2(0,0)
 	body.custom_integrator = true
 	body.set_use_custom_integrator(true)
+	body.z_index=0
 
+
+
+func _draw():
+	if(draw_pot):
+		var center = body.position		## Import the position of a rigid body
+		var ring_count: int = 100  ## Ring segments
+		var max_radius = body.mass * 0.5
+
+		for i in range(ring_count):
+			var inner_r = max_radius * i / ring_count
+			var outer_r = max_radius * (i + 1) / ring_count
+
+			var inner_points = []
+			var outer_points = []
+			var segments = 64  ## Circle resolution
+
+			for j in range(segments):
+				var angle = TAU * j / segments
+				inner_points.append(center + Vector2(cos(angle), sin(angle)) * inner_r)
+				outer_points.append(center + Vector2(cos(angle), sin(angle)) * outer_r)
+
+			var hue = lerp(0.0, 0.33, float(i) / ring_count)
+			var color = Color.from_hsv(hue, 1.0, 1.0)
+
+			for j in range(segments):
+				var p1 = inner_points[j]
+				var p2 = outer_points[j]
+				var p3 = outer_points[(j + 1) % segments]
+				var p4 = inner_points[(j + 1) % segments]
+
+				draw_polygon([p1, p2, p3, p4], [color, color, color, color])
 
 func _update_scale(radius_):
 	$"Planet Physics Body"/Sprite2D.scale = Vector2.ONE*radius_

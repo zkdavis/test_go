@@ -9,6 +9,8 @@ radius = 19.0
 height = 92.0
 
 [node name="Ship_Scene" type="Node2D"]
+top_level = true
+z_index = 5
 script = ExtResource("1_8g17m")
 
 [node name="CharacterBody2D" type="CharacterBody2D" parent="."]
