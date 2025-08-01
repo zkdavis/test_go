@@ -28,6 +28,39 @@ init_pos_ = Vector2(0,0), init_vel_ = Vector2(0,0), omega_ = 0) -> Orbiting_Body
 	new_body.linear_velocity = init_vel_
 	return new_body
 
+@export var max_radius: float = 100.0
+
+func _draw():
+	var center = self.position		## Import the position of a rigid body
+	var ring_count: int = 100  ## Ring segments
+	var max_radius = self.mass * 100
+
+	for i in range(ring_count):
+		var inner_r = max_radius * i / ring_count
+		var outer_r = max_radius * (i + 1) / ring_count
+
+		var inner_points = []
+		var outer_points = []
+		var segments = 64  ## Circle resolution
+
+		for j in range(segments):
+			var angle = TAU * j / segments
+			inner_points.append(center + Vector2(cos(angle), sin(angle)) * inner_r)
+			outer_points.append(center + Vector2(cos(angle), sin(angle)) * outer_r)
+
+		var hue = lerp(0.0, 0.33, float(i) / ring_count)
+		var color = Color.from_hsv(hue, 1.0, 1.0)
+
+		for j in range(segments):
+			var p1 = inner_points[j]
+			var p2 = outer_points[j]
+			var p3 = outer_points[(j + 1) % segments]
+			var p4 = inner_points[(j + 1) % segments]
+
+			draw_polygon([p1, p2, p3, p4], [color, color, color, color])
+
+	
+
 func _physics_process(delta: float) -> void:
 	self.linear_velocity = Vector2(0.0,0.0)
 	var collision_info = move_and_collide(self.linear_velocity*delta)
