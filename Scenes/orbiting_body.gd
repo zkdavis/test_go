@@ -2,7 +2,8 @@ class_name Orbiting_Body
 extends Node2D
 
 var radius: float = 1.0
-@onready var body := $RigidBody2D
+const MAGIC_FUDGE_FACTOR_DUE_TO_IMAGE_SIZE = 20
+@onready var body := $"Planet Physics Body"
 
 func _ready() -> void:
 	body.mass = 1.0
@@ -13,16 +14,18 @@ func _ready() -> void:
 	body.angular_velocity = 0.0
 	body.linear_velocity = Vector2(0,0)
 	body.position = Vector2(0,0)
+	body.custom_integrator = true
+	body.set_use_custom_integrator(true)
 
-func _update_scale():
-	$RigidBody2D/Sprite2D.scale = Vector2.ONE * self.radius
-	$RigidBody2D/CollisionShape2D.shape.radius = radius
+func _update_scale(radius_):
+	$"Planet Physics Body"/Sprite2D.scale = Vector2.ONE*radius_
+	$"Planet Physics Body"/CollisionShape2D.shape.radius = MAGIC_FUDGE_FACTOR_DUE_TO_IMAGE_SIZE*radius_
 
 func setup(mass_ : float, radius_ : float, 
 init_pos_ = Vector2(0,0), init_vel_ = Vector2(0,0), omega_ = 0) -> void:
 	body.mass = mass_
 	self.radius = radius_
-	self._update_scale()
+	_update_scale(radius_)
 	body.angular_velocity = omega_
 	body.position = init_pos_
 	body.linear_velocity = init_vel_
@@ -39,8 +42,8 @@ func get_radius() -> float:
 func get_omega() -> float:
 	return body.angular_velocity
 	
-func apply_force(f : Vector2) -> void:
-	body.apply_central_force(f)
+func clear_force():
+	body.force = Vector2.ZERO
 
-func _physics_process(delta: float) -> void:
-	body.move_and_collide(body.linear_velocity)
+func apply_force(f : Vector2) -> void:
+	body.force += f
