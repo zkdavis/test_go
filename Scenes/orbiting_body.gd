@@ -38,3 +38,9 @@ func get_radius() -> float:
 	
 func get_omega() -> float:
 	return body.angular_velocity
+	
+func apply_force(f : Vector2) -> void:
+	body.apply_central_force(f)
+
+func _physics_process(delta: float) -> void:
+	body.move_and_collide(body.linear_velocity)
