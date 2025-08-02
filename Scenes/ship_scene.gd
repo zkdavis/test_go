@@ -10,6 +10,7 @@ const ANGULAR_THRUST_TO_FUEL_CONSUMPTION = 0.01
 
 
 var gravity = Vector2(0,1)*a_scale
+var calc_forces = true
 var main_thrust = 0*thrust_scale
 var thrust_rotate = 0.0*thrust_scale_rotate
 var thrust_int: int = 0
@@ -29,6 +30,11 @@ var held_time = 0
 var max_hold_time=0.5
 var thrust_add =0
 
+const def_dead_speed=100
+const oriented_dead_spead=1
+var ship_exploded_time=0
+
+
 #zoom items
 @export var vel_zoom_fudge = 0.001
 var ZoomSpeed = Vector2(5,5)
@@ -39,6 +45,7 @@ var zoomdown = false
 var velocity_zoom = true
 
 var dt_int = 0.003
+var show_path=true
 
 ## Alignment mode togle on
 func _unhandled_input(event):
@@ -82,9 +89,13 @@ func get_input(delta):
 	var down_pressed = Input.is_action_pressed('down')
 	var up_up = Input.is_action_just_released('up')
 	var down_down = Input.is_action_just_released('down')
+	var restart = Input.is_action_just_pressed('restart')
 	
 	
 	var cur_animation = $CharacterBody2D/Sprite2D.animation
+	
+	if restart:
+		get_tree().reload_current_scene()
 	
 	if mid_mouse:
 		velocity_zoom = !velocity_zoom
@@ -196,8 +207,35 @@ func trajectory_draw(trajectory):
 		var p = trajectory[i]
 		line.add_point(p)
 	
+func check_ship(col_info: KinematicCollision2D):
+	#this doesn't work as well as I would hope
+	var col_loc = col_info.get_position()
+	var col_to_ship = $CharacterBody2D.position - col_loc
+	col_to_ship = col_to_ship.normalized()
+	var angle_to_y = acos(col_to_ship.dot(Vector2(0,-1)))
+	var angle_in_deg = rad_to_deg(angle_to_y)
+	var ship_angle = rad_to_deg($CharacterBody2D.rotation)
+	if abs(ship_angle - angle_in_deg) <45:
+		return false
+	else:
+		return true
 
-		
+func explode_ship(delta):
+	var ship_sprite:AnimatedSprite2D = $CharacterBody2D/Sprite2D
+	var explosion_sprite:AnimatedSprite2D = $CharacterBody2D/explosion
+	calc_forces = false
+	ship_exploded_time += delta
+	if explosion_sprite.visible == false:
+		explosion_sprite.visible=true
+		explosion_sprite.play('default')
+	if ship_exploded_time > 1.5:
+		if $CanvasLayer/RestartText.visible == false:
+			$CanvasLayer/RestartText.visible = true
+		if ship_sprite.visible:
+			ship_sprite.visible = false
+	if ship_exploded_time > 5:
+		if explosion_sprite.visible:
+			explosion_sprite.visible = false
 
 func _physics_process(delta: float) -> void:
 	if line == null:
@@ -211,13 +249,17 @@ func _physics_process(delta: float) -> void:
 	set_current_animation()
 	$CanvasLayer/ThrustBar.set_thrust(thrust_int)
 	
-	gravity = calculate_gravitational_force(bods)
+	if ship_exploded_time>0:
+		explode_ship(delta)
 	
-	var ts = get_trajectory()
-	trajectory_draw(ts)
-	
-	bods = []
-	$CharacterBody2D.velocity += delta*(gravity + (main_thrust*Vector2(sin($CharacterBody2D.rotation),-cos($CharacterBody2D.rotation))))
+	if calc_forces:
+		gravity = calculate_gravitational_force(bods)
+		
+		var ts = get_trajectory()
+		trajectory_draw(ts)
+		
+		bods = []
+		$CharacterBody2D.velocity += delta*(gravity + (main_thrust*Vector2(sin($CharacterBody2D.rotation),-cos($CharacterBody2D.rotation))))
 	#self.angular_vel += thrust_rotate*delta
 	if alignment_mode_status:	## Check alignment mode
 		var sprite_angle_offset = PI/2	## Sprite offset angle
@@ -252,10 +294,18 @@ func _physics_process(delta: float) -> void:
 
 		
 	
-	var collision_info = $CharacterBody2D.move_and_collide($CharacterBody2D.velocity*delta)
+	var collision_info: KinematicCollision2D = $CharacterBody2D.move_and_collide($CharacterBody2D.velocity*delta)
 	if collision_info:
+		#print("speed: " + str($CharacterBody2D.velocity.length()))
+		if $CharacterBody2D.velocity.length() > def_dead_speed:
+			explode_ship(delta)
+		else:
+			var expship = check_ship(collision_info)
+			if expship:
+				explode_ship(delta)
 		#basic collision for now. needs logic
 		$CharacterBody2D.velocity = Vector2(0,0)
+		
 		
 	fuel_consumed_accumulator += LINEAR_THRUST_TO_FUEL_CONSUMPTION_RATE*abs(thrust_int)*delta
 	decrement_fuel()
