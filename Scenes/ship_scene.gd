@@ -93,13 +93,13 @@ func _physics_process(delta: float) -> void:
 	if alignment_mode_status:	## Check alignment mode
 		var sprite_angle_offset = 3.141592/2	## Sprite offset angle
 		var current_vel_angle = $CharacterBody2D.velocity.angle() + sprite_angle_offset
-		var current_sprite_angle = $CharacterBody2D/Sprite2D.rotation
+		var current_sprite_angle = $CharacterBody2D.rotation
 		var diff_angle = current_sprite_angle - current_vel_angle
 		var angle_threshold = 0.314;
 		if abs(diff_angle) > angle_threshold:	## 10 degrees threshold
-			$CharacterBody2D/Sprite2D.rotation = current_vel_angle	## if you like interpolate diff angle this should be the right place
+			$CharacterBody2D.rotation = current_vel_angle	## if you like interpolate diff angle this should be the right place
 		else:
-			$CharacterBody2D/Sprite2D.rotation = current_vel_angle
+			$CharacterBody2D.rotation = current_vel_angle
 	$CharacterBody2D.rotate(self.angular_vel*delta)
 	##if(abs(self.angular_vel) < 2*delta*thrust_scale_rotate and abs(self.thrust_rotate)<3*thrust_scale_rotate ):
 		##self.angular_vel*=exp(-3*delta)
