@@ -12,6 +12,7 @@ var thrust_int: int = 0
 var max_thrust_int: int = 20
 var orientation = Vector2(0,-1)
 var angular_vel = 0.0
+var alignment_mode_status = false
 var bods = []
 
 var ZoomSpeed = Vector2(5,5)
@@ -21,6 +22,12 @@ var zoomup = false
 var zoomdown = false
 var velocity_zoom = true
 
+## Alignment mode togle on
+func _unhandled_input(event):
+	if event.is_action_pressed("alignment_toggle_mode"):
+		alignment_mode_status = !alignment_mode_status		## Toggle alignment mode
+
+		
 
 func get_input():
 	var up = Input.is_action_just_pressed('up')
@@ -83,6 +90,16 @@ func _physics_process(delta: float) -> void:
 	bods = []
 	$CharacterBody2D.velocity += delta*(gravity + (main_thrust*Vector2(sin($CharacterBody2D.rotation),-cos($CharacterBody2D.rotation))))
 	#self.angular_vel += thrust_rotate*delta
+	if alignment_mode_status:	## Check alignment mode
+		var sprite_angle_offset = 3.141592/2	## Sprite offset angle
+		var current_vel_angle = $CharacterBody2D.velocity.angle() + sprite_angle_offset
+		var current_sprite_angle = $CharacterBody2D/Sprite2D.rotation
+		var diff_angle = current_sprite_angle - current_vel_angle
+		var angle_threshold = 0.314;
+		if abs(diff_angle) > angle_threshold:	## 10 degrees threshold
+			$CharacterBody2D/Sprite2D.rotation = current_vel_angle	## if you like interpolate diff angle this should be the right place
+		else:
+			$CharacterBody2D/Sprite2D.rotation = current_vel_angle
 	$CharacterBody2D.rotate(self.angular_vel*delta)
 	##if(abs(self.angular_vel) < 2*delta*thrust_scale_rotate and abs(self.thrust_rotate)<3*thrust_scale_rotate ):
 		##self.angular_vel*=exp(-3*delta)
