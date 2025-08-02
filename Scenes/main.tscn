@@ -47,6 +47,9 @@ position = Vector2(1200, 320)
 position = Vector2(680, 152)
 shape = SubResource("RectangleShape2D_8gbba")
 
+[node name="linepath" type="Line2D" parent="."]
+default_color = Color(0.178677, 0.750792, 0, 1)
+
 [node name="FuelBar" parent="." instance=ExtResource("3_8gbba")]
 offset_left = 3.0
 offset_top = 3.0
@@ -65,3 +68,4 @@ offset_left = 4.0
 offset_top = 445.0
 offset_right = 70.0
 offset_bottom = 709.0
+
