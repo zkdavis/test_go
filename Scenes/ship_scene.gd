@@ -5,6 +5,7 @@ extends Node2D
 @export var thrust_scale_rotate = 0.01
 @export var mass = 1
 
+
 var gravity = Vector2(0,1)*a_scale
 var main_thrust = 0*thrust_scale
 var thrust_rotate = 0.0*thrust_scale_rotate
@@ -15,6 +16,7 @@ var angular_vel = 0.0
 var alignment_mode_status = false
 var bods = []
 
+@export var vel_zoom_fudge = 0.001
 var ZoomSpeed = Vector2(5,5)
 var MinZoom = Vector2(0.4, 0.4)
 var MaxZoom = Vector2(1,1)
@@ -119,7 +121,7 @@ func _physics_process(delta: float) -> void:
 		$CharacterBody2D/Camera2D.zoom= clamp($CharacterBody2D/Camera2D.zoom, MinZoom, MaxZoom) - ZoomSpeed*delta
 	if velocity_zoom:
 		var v_l = $CharacterBody2D.velocity
-		$CharacterBody2D/Camera2D.zoom = (MaxZoom*(1 - 0.001*v_l.length())).clamp(MinZoom,MaxZoom)
+		$CharacterBody2D/Camera2D.zoom = (MaxZoom*(1 - vel_zoom_fudge*v_l.length())).clamp(MinZoom,MaxZoom)
 
 		
 	
