@@ -17,13 +17,16 @@ var thrust_int: int = 0
 var max_thrust_int: int = 20
 var orientation = Vector2(0,-1)
 var angular_vel = 0.0
-var alignment_mode_status = false
 var bods = []
 var line: Line2D
 var fuel_consumed_accumulator = 0
 
+var alignment_mode_status = 0
+var alignment_is_rotating = false 
+
 var animation_thrust_vect: Vector2i = Vector2i(0,0)
 var transition_animation: bool = false
+
 
 const throttle_speed = 25
 var held_time = 0
@@ -33,6 +36,8 @@ var thrust_add =0
 const def_dead_speed=100
 const oriented_dead_spead=1
 var ship_exploded_time=0
+
+var change_orb_potent=false
 
 
 #zoom items
@@ -47,11 +52,6 @@ var velocity_zoom = true
 var dt_int = 0.003
 var show_path=true
 
-## Alignment mode togle on
-func _unhandled_input(event):
-	if event.is_action_pressed("alignment_toggle_mode"):
-		alignment_mode_status = !alignment_mode_status		## Toggle alignment mode
-		
 
 func _ready() -> void:
 	$CharacterBody2D/Camera2D.make_current()
@@ -75,8 +75,20 @@ func set_current_animation():
 			sprite.play(sprite_string)
 	
 	
-	
-
+func rotate_ship(direct:String,modified_rotation=1):
+	if thrust_scale != 0:
+		if direct=='right':
+			$CharacterBody2D.rotation += 0.1*modified_rotation
+			fuel_consumed_accumulator += ANGULAR_THRUST_TO_FUEL_CONSUMPTION*modified_rotation
+			decrement_fuel()
+			animation_thrust_vect.x = 1
+		elif direct=='left':	
+			$CharacterBody2D.rotation -= 0.1*modified_rotation
+			fuel_consumed_accumulator += ANGULAR_THRUST_TO_FUEL_CONSUMPTION*modified_rotation
+			decrement_fuel()
+			animation_thrust_vect.x = -1
+		elif(direct=='stop'):
+			animation_thrust_vect.x = 0
 		
 func get_input(delta):
 	var up = Input.is_action_just_pressed('up')
@@ -93,9 +105,22 @@ func get_input(delta):
 	var up_up = Input.is_action_just_released('up')
 	var down_down = Input.is_action_just_released('down')
 	var restart = Input.is_action_just_pressed('restart')
+	var align_pressed = Input.is_action_just_pressed("alignment_toggle_mode")
+	var change_orb_pot = Input.is_action_just_pressed("change_orb_pot")
 	
 	
 	var cur_animation = $CharacterBody2D/Sprite2D.animation
+	
+	if align_pressed:
+		alignment_mode_status += 1
+		if alignment_mode_status>3:
+			alignment_mode_status=0
+			
+		if alignment_mode_status==0:
+			rotate_ship("stop")
+		
+	if change_orb_pot:
+		change_orb_potent = true
 	
 	if restart:
 		get_tree().reload_current_scene()
@@ -141,18 +166,9 @@ func get_input(delta):
 	main_thrust = thrust_int*thrust_scale
 	
 	if right:
-		if thrust_scale != 0:
-			$CharacterBody2D.rotation += 0.1
-			fuel_consumed_accumulator += ANGULAR_THRUST_TO_FUEL_CONSUMPTION
-			decrement_fuel()
-			animation_thrust_vect.x = 1
-			#thrust_rotate += clamp(1.0*thrust_scale_rotate,-3*thrust_scale_rotate,3*thrust_scale_rotate)
+		rotate_ship('right')
 	if left:
-		if thrust_scale != 0:
-			$CharacterBody2D.rotation -= 0.1
-			fuel_consumed_accumulator += ANGULAR_THRUST_TO_FUEL_CONSUMPTION
-			decrement_fuel()
-			animation_thrust_vect.x = -1
+		rotate_ship('left')
 
 			#thrust_rotate += clamp(-1.0*thrust_scale_rotate,-3*thrust_scale_rotate,3*thrust_scale_rotate)
 	if left_up:
@@ -239,12 +255,52 @@ func explode_ship(delta):
 	if ship_exploded_time > 5:
 		if explosion_sprite.visible:
 			explosion_sprite.visible = false
+			
+
+
+func alignment_mode_update(delta):
+	if $CharacterBody2D.velocity.length() < 0.1:
+		rotate_ship('stop')
+		alignment_is_rotating = false
+		return
+	
+	var sprite_angle_offset = 0
+	if alignment_mode_status==2:
+		sprite_angle_offset = PI/2
+	if alignment_mode_status==3:
+		sprite_angle_offset = 3*PI/2
+	var current_vel_angle = Vector2.UP.angle_to($CharacterBody2D.velocity.normalized()) + sprite_angle_offset
+	var current_sprite_angle = $CharacterBody2D.rotation
+	var diff_angle = angle_difference(current_vel_angle, current_sprite_angle)
+	var diff_angle_deg = rad_to_deg(abs(diff_angle))
+	
+	var angle_threshold = 8     
+	var buffer_threshold = 2      
+	var rotation_speed = 10
+	
+	if diff_angle_deg > angle_threshold:
+		alignment_is_rotating = true
+	elif diff_angle_deg < buffer_threshold:
+		alignment_is_rotating = false
+	
+	if alignment_is_rotating:
+		if diff_angle > 0:
+			rotate_ship('left', delta * rotation_speed)
+		else:
+			rotate_ship('right', delta * rotation_speed)
+	else:
+		rotate_ship('stop')
+	
 
 func _physics_process(delta: float) -> void:
 	if line == null:
 		line = self.get_parent().get_node("linepath")
 	line.clear_points()
 		
+	if change_orb_potent:
+		for b in bods:
+			b.draw_pot = !b.draw_pot
+		change_orb_potent = false
 		
 	get_bods()
 	get_input(delta)
@@ -255,34 +311,21 @@ func _physics_process(delta: float) -> void:
 	if ship_exploded_time>0:
 		explode_ship(delta)
 	
+	if alignment_mode_status!=0:
+		alignment_mode_update(delta)
+	
 	if calc_forces:
 		gravity = calculate_gravitational_force(bods)
 		
 		var ts = get_trajectory()
 		trajectory_draw(ts)
 		
-		bods = []
 		$CharacterBody2D.velocity += delta*(gravity + (main_thrust*Vector2(sin($CharacterBody2D.rotation),-cos($CharacterBody2D.rotation))))
-	#self.angular_vel += thrust_rotate*delta
-	if alignment_mode_status:	## Check alignment mode
-		var sprite_angle_offset = PI/2	## Sprite offset angle
-		var current_vel_angle = $CharacterBody2D.velocity.angle() + sprite_angle_offset
-		var current_sprite_angle = $CharacterBody2D.rotation
-		var diff_angle = current_sprite_angle - current_vel_angle
-		var angle_threshold = 0.314;
-		if abs(diff_angle) > angle_threshold:	## 10 degrees threshold
-			$CharacterBody2D.rotation = current_vel_angle	## if you like interpolate diff angle this should be the right place
-		else:
-			$CharacterBody2D.rotation = current_vel_angle
-	$CharacterBody2D.rotate(self.angular_vel*delta)
-	##if(abs(self.angular_vel) < 2*delta*thrust_scale_rotate and abs(self.thrust_rotate)<3*thrust_scale_rotate ):
-		##self.angular_vel*=exp(-3*delta)
-		##self.thrust_rotate=0
-		##if(abs(self.angular_vel) < 0.5*thrust_scale_rotate*delta):
-			##self.angular_vel =0
-			##if rotation <0.0001:
-				##rotation = 0
-			##
+	
+	bods = []
+	
+	
+	
 	
 	#camera_items
 	if zoomup and velocity_zoom == false:

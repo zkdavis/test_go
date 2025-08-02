@@ -21,7 +21,6 @@ func _ready() -> void:
 	p3.setup(200.0, 0.25, Vector2(400, 400), Vector2(0, 120))
 	p3.set_red()
 
-
 func calculate_gravitational_force(target : Orbiting_Body, source : Orbiting_Body) -> Vector2:
 	var G = 10000 ## GConstant
 	var direction = target.get_pos() - source.get_pos()

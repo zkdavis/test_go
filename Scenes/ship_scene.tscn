@@ -1,4 +1,4 @@
-[gd_scene load_steps=100 format=3 uid="uid://bi3dox85cb7bv"]
+[gd_scene load_steps=101 format=3 uid="uid://bi3dox85cb7bv"]
 
 [ext_resource type="Script" uid="uid://xd4i7fvjdw7i" path="res://Scenes/ship_scene.gd" id="1_8g17m"]
 [ext_resource type="Script" uid="uid://dvgyw5lidoj85" path="res://Scenes/ship_body.gd" id="2_eju44"]
@@ -17,6 +17,7 @@
 [ext_resource type="Texture2D" uid="uid://cx1t56ln1bhii" path="res://Assets/Sprites/Spaceship_forward_right.png" id="12_fe11j"]
 [ext_resource type="Texture2D" uid="uid://vencbknaq43j" path="res://Assets/Sprites/Explosion_003_Tile_8x8_256x256.png" id="13_d0v4o"]
 [ext_resource type="Texture2D" uid="uid://bgyyl1qnvup8d" path="res://Assets/Sprites/exp2_0.png" id="14_fe11j"]
+[ext_resource type="Script" uid="uid://8rrhfyo1bo2o" path="res://Scenes/alignment_label.gd" id="16_fe11j"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_d0v4o"]
 animations = [{
@@ -712,10 +713,17 @@ polygon = PackedVector2Array(-22, 45, 23, 45, 22, 3, 9, -4, 9, -31, 6, -40, 1, -
 
 [node name="SpeedLabel" type="Label" parent="CanvasLayer"]
 offset_left = 8.0
-offset_top = 56.0
+offset_top = 88.0
 offset_right = 164.0
-offset_bottom = 79.0
+offset_bottom = 111.0
 script = ExtResource("5_3w5a6")
+
+[node name="AlignmentLabel" type="Label" parent="CanvasLayer"]
+offset_left = 8.0
+offset_top = 61.0
+offset_right = 164.0
+offset_bottom = 84.0
+script = ExtResource("16_fe11j")
 
 [node name="FuelBar" parent="CanvasLayer" instance=ExtResource("4_eqixp")]
 offset_left = 8.0

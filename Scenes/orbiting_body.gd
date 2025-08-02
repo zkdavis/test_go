@@ -46,8 +46,8 @@ func _draw():
 				inner_points.append(center + Vector2(cos(angle), sin(angle)) * inner_r)
 				outer_points.append(center + Vector2(cos(angle), sin(angle)) * outer_r)
 
-			var hue = lerp(0.0, 0.33, float(i) / ring_count)
-			var color = Color.from_hsv(hue, 1.0, 1.0)
+			var hue = lerp(0.5, 1.0, float(i) / ring_count)
+			var color = Color.from_hsv(hue, 1.0, 1.0,0.1)
 
 			for j in range(segments):
 				var p1 = inner_points[j]
