@@ -4,6 +4,12 @@ extends Node2D
 var draw_pot: bool = true
 var radius: float = 1.0
 const MAGIC_FUDGE_FACTOR_DUE_TO_IMAGE_SIZE = 10.0/0.625
+const RED = Color(0.933333,0.615686,0.58039)
+const ORANGE = Color(0.976470,0.796078,0.647058)
+const GREEN = Color(0.709803,0.854901,0.72941)
+const BLUE = Color(0.596078,0.780392,0.917647)
+const GREY = Color(0.701960,0.780392,0.772549)
+
 @onready var body := $"Planet Physics Body"
 
 func _ready() -> void:
@@ -85,3 +91,18 @@ func apply_force(f : Vector2) -> void:
 
 func set_color(r : float, g : float, b : float) -> void:
 	get_node("Planet Physics Body/Sprite2D").modulate = Color(r, g, b, 1.0)
+
+func set_red() -> void:
+	get_node("Planet Physics Body/Sprite2D").modulate = RED
+
+func set_orange() -> void:
+	get_node("Planet Physics Body/Sprite2D").modulate = ORANGE
+
+func set_green() -> void:
+	get_node("Planet Physics Body/Sprite2D").modulate = GREEN
+
+func set_blue() -> void:
+	get_node("Planet Physics Body/Sprite2D").modulate = BLUE
+
+func set_grey() -> void:
+	get_node("Planet Physics Body/Sprite2D").modulate = GREY
