@@ -129,7 +129,7 @@ func _physics_process(delta: float) -> void:
 		
 	get_bods()
 	get_input()
-	get_parent().get_node("ThrustBar").set_thrust(thrust_int)
+	$CanvasLayer/ThrustBar.set_thrust(thrust_int)
 	
 	gravity = calculate_gravitational_force(bods)
 	
@@ -140,7 +140,7 @@ func _physics_process(delta: float) -> void:
 	$CharacterBody2D.velocity += delta*(gravity + (main_thrust*Vector2(sin($CharacterBody2D.rotation),-cos($CharacterBody2D.rotation))))
 	#self.angular_vel += thrust_rotate*delta
 	if alignment_mode_status:	## Check alignment mode
-		var sprite_angle_offset = 3.141592/2	## Sprite offset angle
+		var sprite_angle_offset = PI/2	## Sprite offset angle
 		var current_vel_angle = $CharacterBody2D.velocity.angle() + sprite_angle_offset
 		var current_sprite_angle = $CharacterBody2D.rotation
 		var diff_angle = current_sprite_angle - current_vel_angle
@@ -177,15 +177,15 @@ func _physics_process(delta: float) -> void:
 		#basic collision for now. needs logic
 		$CharacterBody2D.velocity = Vector2(0,0)
 		
-	fuel_consumed_accumulator += LINEAR_THRUST_TO_FUEL_CONSUMPTION_RATE*thrust_int*delta
+	fuel_consumed_accumulator += LINEAR_THRUST_TO_FUEL_CONSUMPTION_RATE*abs(thrust_int)*delta
 	decrement_fuel()
 
 func decrement_fuel() -> void:
 	if fuel_consumed_accumulator > 1:
 		fuel_consumed_accumulator = 0
-		get_parent().get_node("FuelBar").reduce()
-	if get_parent().get_node("FuelBar").out_of_fuel():
+		$CanvasLayer/FuelBar.reduce()
+	if $CanvasLayer/FuelBar.out_of_fuel():
 		thrust_int = 0
 		thrust_scale = 0
-		get_parent().get_node("ThrustBar").set_thrust(thrust_int)
-		get_parent().get_node("ThrustBar").deactivate()
+		$CanvasLayer/ThrustBar.set_thrust(thrust_int)
+		$CanvasLayer/ThrustBar.deactivate()

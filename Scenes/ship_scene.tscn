@@ -1,8 +1,11 @@
-[gd_scene load_steps=5 format=3 uid="uid://bi3dox85cb7bv"]
+[gd_scene load_steps=8 format=3 uid="uid://bi3dox85cb7bv"]
 
 [ext_resource type="Script" uid="uid://xd4i7fvjdw7i" path="res://Scenes/ship_scene.gd" id="1_8g17m"]
 [ext_resource type="Texture2D" uid="uid://duaxdpmr8y1yu" path="res://Assets/Sprites/Spaceship_all.png" id="1_aah3r"]
 [ext_resource type="Script" uid="uid://dvgyw5lidoj85" path="res://Scenes/ship_body.gd" id="2_eju44"]
+[ext_resource type="PackedScene" uid="uid://bxn7ef02kegfo" path="res://Scenes/fuel_bar.tscn" id="4_eqixp"]
+[ext_resource type="Script" uid="uid://bdpy8ew8jnwss" path="res://Scenes/speed_label.gd" id="5_3w5a6"]
+[ext_resource type="PackedScene" uid="uid://dyjht1dtyhlcq" path="res://Scenes/thrust_bar.tscn" id="6_6mrrv"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_pb8kf"]
 radius = 19.0
@@ -33,3 +36,24 @@ position_smoothing_speed = 20.0
 rotation_smoothing_enabled = true
 drag_horizontal_enabled = true
 drag_vertical_enabled = true
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="SpeedLabel" type="Label" parent="CanvasLayer"]
+offset_left = 8.0
+offset_top = 56.0
+offset_right = 164.0
+offset_bottom = 79.0
+script = ExtResource("5_3w5a6")
+
+[node name="FuelBar" parent="CanvasLayer" instance=ExtResource("4_eqixp")]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 273.0
+offset_bottom = 54.0
+
+[node name="ThrustBar" parent="CanvasLayer" instance=ExtResource("6_6mrrv")]
+offset_left = 1208.0
+offset_top = 440.0
+offset_right = 1274.0
+offset_bottom = 704.0
