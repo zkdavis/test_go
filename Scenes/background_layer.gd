@@ -22,4 +22,4 @@ func setup(file, layer: int, speed: float) -> void:
 	set_repeat_times(8)
 
 func _process(delta: float) -> void:
-	print(self.get_name(), " Scroll offset: ", scroll_offset)
+	pass
