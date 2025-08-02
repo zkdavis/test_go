@@ -14,14 +14,30 @@ var orientation = Vector2(0,-1)
 var angular_vel = 0.0
 var bods = []
 
+var ZoomSpeed = Vector2(5,5)
+var MinZoom = Vector2(0.4, 0.4)
+var MaxZoom = Vector2(1,1)
+var zoomup = false
+var zoomdown = false
+var velocity_zoom = true
 
 
 func get_input():
-	var up = Input.is_action_just_pressed('ui_up')
-	var down = Input.is_action_just_pressed('ui_down')
-	var left = Input.is_action_pressed('ui_left')
-	var right = Input.is_action_pressed('ui_right')
-
+	var up = Input.is_action_just_pressed('up')
+	var down = Input.is_action_just_pressed('down')
+	var left = Input.is_action_pressed('left')
+	var right = Input.is_action_pressed('right')
+	var scroll_up = Input.is_action_just_released("zoom_in")
+	var scroll_down = Input.is_action_just_released("zoom_out")
+	var mid_mouse = Input.is_action_just_pressed("vel_zoom")
+	
+	if mid_mouse:
+		velocity_zoom = !velocity_zoom
+	if scroll_up:
+		zoomup=true
+	if scroll_down:
+		zoomdown=true
+		
 	if up:
 		thrust_int +=1
 		thrust_int = clampi(thrust_int,-max_thrust_int,max_thrust_int)
@@ -30,7 +46,9 @@ func get_input():
 		thrust_int -=1
 		thrust_int = clampi(thrust_int,-max_thrust_int,max_thrust_int)
 		self.get_parent().get_node("ThrustGauge/Label2").text = str(thrust_int)
+		
 	main_thrust = thrust_int*thrust_scale
+	
 	if right:
 		$CharacterBody2D.rotation += 0.1
 		#thrust_rotate += clamp(1.0*thrust_scale_rotate,-3*thrust_scale_rotate,3*thrust_scale_rotate)
@@ -74,6 +92,20 @@ func _physics_process(delta: float) -> void:
 			##if rotation <0.0001:
 				##rotation = 0
 			##
+	
+	#camera_items
+	if zoomup and velocity_zoom == false:
+		zoomup=false
+		$CharacterBody2D/Camera2D.zoom = clamp($CharacterBody2D/Camera2D.zoom, MinZoom, MaxZoom) + ZoomSpeed*delta
+	if zoomdown and velocity_zoom == false:
+		zoomdown=false
+		$CharacterBody2D/Camera2D.zoom= clamp($CharacterBody2D/Camera2D.zoom, MinZoom, MaxZoom) - ZoomSpeed*delta
+	if velocity_zoom:
+		var v_l = $CharacterBody2D.velocity
+		$CharacterBody2D/Camera2D.zoom = (MaxZoom*(1 - 0.001*v_l.length())).clamp(MinZoom,MaxZoom)
+
+		
+	
 	var collision_info = $CharacterBody2D.move_and_collide($CharacterBody2D.velocity*delta)
 	if collision_info:
 		#basic collision for now. needs logic
