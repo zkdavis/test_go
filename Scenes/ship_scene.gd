@@ -15,6 +15,7 @@ var orientation = Vector2(0,-1)
 var angular_vel = 0.0
 var alignment_mode_status = false
 var bods = []
+var line: Line2D
 
 #zoom items
 @export var vel_zoom_fudge = 0.001
@@ -24,6 +25,8 @@ var MaxZoom = Vector2(1,1)
 var zoomup = false
 var zoomdown = false
 var velocity_zoom = true
+
+var dt_int = 0.003
 
 ## Alignment mode togle on
 func _unhandled_input(event):
@@ -66,30 +69,64 @@ func get_input():
 		$CharacterBody2D.rotation -= 0.1
 		#thrust_rotate += clamp(-1.0*thrust_scale_rotate,-3*thrust_scale_rotate,3*thrust_scale_rotate)
 		
-func calculate_gravitational_force(bodies) -> Vector2:
+func cal_fg(bodies,pos,m) -> Vector2:
 	var G = 10000 ## GConstant
 	var force = Vector2(0,0)
 	for b in bodies:
-		var direction = b.get_pos() - $CharacterBody2D.global_position
+		var direction = b.get_pos() - pos
 		var distance = direction.length()
 		if distance <= 1e-1:
+			print("fuck")
 			return Vector2.ZERO ## Safeguard
-		var force_magnitude = G * b.get_mass() * self.mass / (distance*distance)
+		var force_magnitude = G * b.get_mass() * m / (distance*distance)
 		force += direction.normalized() * force_magnitude
-	return force/self.mass
+	return force/m
+	
+func calculate_gravitational_force(bodies) -> Vector2:
+	return cal_fg(bodies,$CharacterBody2D.position,self.mass) 
 	
 func get_bods():
 	var bs = get_parent().get_node("Planets").get_children()
 	for b in bs:
 		bods.append(b)
 	return bods
-		
-		
+	
+func get_xn1(fg,v0,x0):
+	var vn1 = v0 + fg*self.dt_int/self.mass
+	var xn1 = vn1*self.dt_int + x0 
+	return xn1
+
+func get_trajectory(total_t=8):
+	var t = 0
+	var xn1=$CharacterBody2D.position
+	var vn1 = $CharacterBody2D.velocity
+	var trajectory = []
+	while(t<total_t):
+		var fg = cal_fg(bods,xn1,vn1)
+		vn1 += self.dt_int*fg
+		xn1 = get_xn1(fg,vn1,xn1)		
+		t += self.dt_int
+		trajectory.append(xn1)
+	return trajectory
+
+func trajectory_draw(trajectory):
+	for i in range(0,len(trajectory),50):
+		var p = trajectory[i]
+		line.add_point(p)
+	
 func _physics_process(delta: float) -> void:
+	if line == null:
+		line = self.get_parent().get_node("linepath")
+	line.clear_points()
+		
 	get_bods()
 	get_input()
 	
 	gravity = calculate_gravitational_force(bods)
+	
+	var ts = get_trajectory()
+	trajectory_draw(ts)
+	
 	bods = []
 	$CharacterBody2D.velocity += delta*(gravity + (main_thrust*Vector2(sin($CharacterBody2D.rotation),-cos($CharacterBody2D.rotation))))
 	#self.angular_vel += thrust_rotate*delta
