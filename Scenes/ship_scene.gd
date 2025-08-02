@@ -28,11 +28,9 @@ func get_input():
 	if up:
 		thrust_int +=1
 		thrust_int = clampi(thrust_int,-max_thrust_int,max_thrust_int)
-		self.get_parent().get_node("ThrustGauge/Label2").text = str(thrust_int)
 	if down:
 		thrust_int -=1
 		thrust_int = clampi(thrust_int,-max_thrust_int,max_thrust_int)
-		self.get_parent().get_node("ThrustGauge/Label2").text = str(thrust_int)
 	main_thrust = thrust_int*thrust_scale
 	if right:
 		if thrust_scale != 0:
@@ -69,6 +67,7 @@ func get_bods():
 func _physics_process(delta: float) -> void:
 	get_bods()
 	get_input()
+	get_parent().get_node("ThrustBar").set_thrust(thrust_int)
 	
 	gravity = calculate_gravitational_force(bods)
 	bods = []
@@ -98,3 +97,5 @@ func decrement_fuel() -> void:
 	if get_parent().get_node("FuelBar").out_of_fuel():
 		thrust_int = 0
 		thrust_scale = 0
+		get_parent().get_node("ThrustBar").set_thrust(thrust_int)
+		get_parent().get_node("ThrustBar").deactivate()
