@@ -3,7 +3,7 @@ extends Node2D
 
 var draw_pot: bool = true
 var radius: float = 1.0
-const MAGIC_FUDGE_FACTOR_DUE_TO_IMAGE_SIZE = 20
+const MAGIC_FUDGE_FACTOR_DUE_TO_IMAGE_SIZE = 10.0/0.625
 @onready var body := $"Planet Physics Body"
 
 func _ready() -> void:
@@ -80,6 +80,8 @@ func get_omega() -> float:
 func clear_force():
 	body.force = Vector2.ZERO
 
-
 func apply_force(f : Vector2) -> void:
 	body.force += f
+
+func set_color(r : float, g : float, b : float) -> void:
+	get_node("Planet Physics Body/Sprite2D").modulate = Color(r, g, b, 1.0)
