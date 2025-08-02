@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=3 uid="uid://coys5brwnnnmh"]
+
+[ext_resource type="Script" uid="uid://4g27x8320eb2" path="res://Scenes/background.gd" id="1_i7s6n"]
+[ext_resource type="PackedScene" uid="uid://blkbi1owcumvx" path="res://Scenes/background_layer.tscn" id="1_oabld"]
+[ext_resource type="Script" uid="uid://c5xlgvvmq4x7" path="res://Scenes/background_layer.gd" id="3_4aqey"]
+
+[node name="Background" type="Node2D"]
+script = ExtResource("1_i7s6n")
+
+[node name="DistantStars" parent="." instance=ExtResource("1_oabld")]
+ignore_camera_scroll = true
+script = ExtResource("3_4aqey")
+
+[node name="CloserStars" parent="." instance=ExtResource("1_oabld")]
+ignore_camera_scroll = true
+script = ExtResource("3_4aqey")

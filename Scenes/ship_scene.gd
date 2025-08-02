@@ -53,6 +53,9 @@ func _unhandled_input(event):
 		alignment_mode_status = !alignment_mode_status		## Toggle alignment mode
 		
 
+func _ready() -> void:
+	$CharacterBody2D/Camera2D.make_current()
+
 func set_current_animation():
 	var cur_an = $CharacterBody2D/Sprite2D.animation
 	var sprite: AnimatedSprite2D = $CharacterBody2D/Sprite2D
