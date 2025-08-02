@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://eypmw80qoj3s"]
+[gd_scene load_steps=6 format=3 uid="uid://eypmw80qoj3s"]
 
 [ext_resource type="Script" uid="uid://b4fq84nvi4hgv" path="res://Scenes/main.gd" id="1_jjvhh"]
 [ext_resource type="PackedScene" uid="uid://bi3dox85cb7bv" path="res://Scenes/ship_scene.tscn" id="2_8gbba"]
 [ext_resource type="PackedScene" uid="uid://bxn7ef02kegfo" path="res://Scenes/fuel_bar.tscn" id="3_8gbba"]
+[ext_resource type="Script" uid="uid://bdpy8ew8jnwss" path="res://Scenes/speed_label.gd" id="4_jjvhh"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8gbba"]
 size = Vector2(42.5007, 1372.81)
@@ -66,3 +67,10 @@ offset_bottom = 627.0
 text = "IIIIIIIII"
 
 [node name="FuelBar" parent="." instance=ExtResource("3_8gbba")]
+
+[node name="SpeedLabel" type="Label" parent="."]
+offset_left = 12.0
+offset_top = 59.0
+offset_right = 168.0
+offset_bottom = 82.0
+script = ExtResource("4_jjvhh")
