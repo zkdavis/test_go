@@ -5,19 +5,19 @@ var ob_scene : PackedScene = load("res://Scenes/orbiting_body.tscn")
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	$Ship_Scene/CharacterBody2D.position = Vector2(300,400)
+	$Ship_Scene/CharacterBody2D.position = Vector2(100,400)
 	$Ship_Scene/CharacterBody2D.velocity = Vector2(0,-110)
 	
 	
 	var p1 = ob_scene.instantiate() as Orbiting_Body
 	$Planets.add_child(p1)
-	#p1.setup(500.0, 0.5, Vector2(600, 400), Vector2(0, 0))
+	p1.setup(500.0, 0.5, Vector2(600, 400), Vector2(0, 0))
 	#var p2 = ob_scene.instantiate() as Orbiting_Body
 	#$Planets.add_child(p2)
 	#p2.setup(100.0, 1, Vector2(800, 400), Vector2(0, 0))
-	#var p3 = ob_scene.instantiate() as Orbiting_Body
-	#$Planets.add_child(p3)
-	#p3.setup(10.0, 0.5, Vector2(600, 400), Vector2(0, 0))
+	var p3 = ob_scene.instantiate() as Orbiting_Body
+	$Planets.add_child(p3)
+	p3.setup(200.0, 0.25, Vector2(400, 400), Vector2(0, 120))
 
 
 func calculate_gravitational_force(target : Orbiting_Body, source : Orbiting_Body) -> Vector2:
