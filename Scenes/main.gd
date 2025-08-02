@@ -12,13 +12,14 @@ func _ready() -> void:
 	var p1 = ob_scene.instantiate() as Orbiting_Body
 	$Planets.add_child(p1)
 	p1.setup(500.0, 0.5, Vector2(600, 400), Vector2(0, 0))
-	##var p2 = ob_scene.instantiate() as Orbiting_Body
-	##$Planets.add_child(p2)
-	##p2.setup(100.0, 1, Vector2(800, 400), Vector2(0, 0))
-	#var p3 = ob_scene.instantiate() as Orbiting_Body
-	#$Planets.add_child(p3)
-	#p3.setup(200.0, 0.25, Vector2(400, 400), Vector2(0, 120))
-
+	p1.set_grey()
+	#var p2 = ob_scene.instantiate() as Orbiting_Body
+	#$Planets.add_child(p2)
+	#p2.setup(100.0, 1, Vector2(800, 400), Vector2(0, 0))
+	var p3 = ob_scene.instantiate() as Orbiting_Body
+	$Planets.add_child(p3)
+	p3.setup(200.0, 0.25, Vector2(400, 400), Vector2(0, 120))
+	p3.set_red()
 
 func calculate_gravitational_force(target : Orbiting_Body, source : Orbiting_Body) -> Vector2:
 	var G = 10000 ## GConstant
