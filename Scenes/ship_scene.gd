@@ -21,6 +21,13 @@ var bods = []
 var line: Line2D
 var fuel_consumed_accumulator = 0
 
+var animation_thrust_vect: Vector2i = Vector2i(0,0)
+var transition_animation: bool = false
+
+const throttle_speed = 25
+var held_time = 0
+var max_hold_time=0.5
+var thrust_add =0
 
 #zoom items
 @export var vel_zoom_fudge = 0.001
@@ -39,7 +46,29 @@ func _unhandled_input(event):
 		alignment_mode_status = !alignment_mode_status		## Toggle alignment mode
 		
 
-func get_input():
+func set_current_animation():
+	var cur_an = $CharacterBody2D/Sprite2D.animation
+	var sprite: AnimatedSprite2D = $CharacterBody2D/Sprite2D
+	var sprite_string = str(animation_thrust_vect.x)+"_"+str(animation_thrust_vect.y)
+	var current_sprite_vector = Vector2i(int(str(cur_an).split("_")[0]),int(str(cur_an).split("_")[1]))
+	if transition_animation:
+		transition_animation = false
+		current_sprite_vector = Vector2i(0,0)
+	if (animation_thrust_vect.y == 1 or animation_thrust_vect.y ==0) and current_sprite_vector.y==-1:
+		sprite.play_backwards('0_-1')
+		transition_animation= true
+	elif(current_sprite_vector.y == -1 and current_sprite_vector.x != 0 ) and (animation_thrust_vect.y == -1 and animation_thrust_vect.x ==0):
+		sprite.play(sprite_string)
+		sprite.set_frame_and_progress(2,1)
+	else:
+		if cur_an != sprite_string:
+			sprite.play(sprite_string)
+	
+	
+	
+
+		
+func get_input(delta):
 	var up = Input.is_action_just_pressed('up')
 	var down = Input.is_action_just_pressed('down')
 	var left = Input.is_action_pressed('left')
@@ -47,6 +76,15 @@ func get_input():
 	var scroll_up = Input.is_action_just_released("zoom_in")
 	var scroll_down = Input.is_action_just_released("zoom_out")
 	var mid_mouse = Input.is_action_just_pressed("vel_zoom")
+	var left_up = Input.is_action_just_released('left')
+	var right_up = Input.is_action_just_released('right')
+	var up_pressed = Input.is_action_pressed('up')
+	var down_pressed = Input.is_action_pressed('down')
+	var up_up = Input.is_action_just_released('up')
+	var down_down = Input.is_action_just_released('down')
+	
+	
+	var cur_animation = $CharacterBody2D/Sprite2D.animation
 	
 	if mid_mouse:
 		velocity_zoom = !velocity_zoom
@@ -57,10 +95,34 @@ func get_input():
 		
 	if up:
 		thrust_int +=1
-		thrust_int = clampi(thrust_int,-max_thrust_int,max_thrust_int)
+		
 	if down:
 		thrust_int -=1
-		thrust_int = clampi(thrust_int,-max_thrust_int,max_thrust_int)
+		
+	if up_pressed and !up:
+		held_time += delta
+		if(held_time >= max_hold_time):
+			thrust_add += delta*throttle_speed
+			thrust_int +=int(thrust_add)
+			if thrust_add > 1:
+				thrust_add = 0
+	if down_pressed and !down:
+		held_time += delta
+		if(held_time >= max_hold_time):
+			thrust_add += delta*throttle_speed
+			thrust_int -=int(thrust_add)
+			if thrust_add > 1:
+				thrust_add = 0
+	
+		
+	thrust_int = clampi(thrust_int,-max_thrust_int,max_thrust_int)
+	
+	if thrust_int >0:
+		animation_thrust_vect.y = 1
+	elif thrust_int <0:
+		animation_thrust_vect.y = -1
+	else:
+		animation_thrust_vect.y = 0
 
 	main_thrust = thrust_int*thrust_scale
 	
@@ -69,14 +131,26 @@ func get_input():
 			$CharacterBody2D.rotation += 0.1
 			fuel_consumed_accumulator += ANGULAR_THRUST_TO_FUEL_CONSUMPTION
 			decrement_fuel()
+			animation_thrust_vect.x = 1
 			#thrust_rotate += clamp(1.0*thrust_scale_rotate,-3*thrust_scale_rotate,3*thrust_scale_rotate)
 	if left:
 		if thrust_scale != 0:
 			$CharacterBody2D.rotation -= 0.1
 			fuel_consumed_accumulator += ANGULAR_THRUST_TO_FUEL_CONSUMPTION
 			decrement_fuel()
+			animation_thrust_vect.x = -1
+
 			#thrust_rotate += clamp(-1.0*thrust_scale_rotate,-3*thrust_scale_rotate,3*thrust_scale_rotate)
-		
+	if left_up:
+		animation_thrust_vect.x = 0
+	if right_up:
+		animation_thrust_vect.x = 0
+	
+	if up_up or down_down:
+		held_time=0
+		thrust_add=0
+	
+	
 func cal_fg(bodies,pos,m) -> Vector2:
 	var G = 10000 ## GConstant
 	var force = Vector2(0,0)
@@ -122,13 +196,19 @@ func trajectory_draw(trajectory):
 		var p = trajectory[i]
 		line.add_point(p)
 	
+
+		
+
 func _physics_process(delta: float) -> void:
 	if line == null:
 		line = self.get_parent().get_node("linepath")
 	line.clear_points()
 		
+		
 	get_bods()
-	get_input()
+	get_input(delta)
+	
+	set_current_animation()
 	$CanvasLayer/ThrustBar.set_thrust(thrust_int)
 	
 	gravity = calculate_gravitational_force(bods)

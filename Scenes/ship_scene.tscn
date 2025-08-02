@@ -1,11 +1,101 @@
-[gd_scene load_steps=8 format=3 uid="uid://bi3dox85cb7bv"]
+[gd_scene load_steps=18 format=3 uid="uid://bi3dox85cb7bv"]
 
 [ext_resource type="Script" uid="uid://xd4i7fvjdw7i" path="res://Scenes/ship_scene.gd" id="1_8g17m"]
-[ext_resource type="Texture2D" uid="uid://duaxdpmr8y1yu" path="res://Assets/Sprites/Spaceship_all.png" id="1_aah3r"]
 [ext_resource type="Script" uid="uid://dvgyw5lidoj85" path="res://Scenes/ship_body.gd" id="2_eju44"]
+[ext_resource type="Texture2D" uid="uid://cfq4idhgkr1jr" path="res://Assets/Sprites/Spaceship_default.png" id="3_7i1sl"]
+[ext_resource type="Texture2D" uid="uid://jyw2orxwetho" path="res://Assets/Sprites/Spaceship_rear_left.png" id="3_ywq8u"]
 [ext_resource type="PackedScene" uid="uid://bxn7ef02kegfo" path="res://Scenes/fuel_bar.tscn" id="4_eqixp"]
+[ext_resource type="Texture2D" uid="uid://dw5ma4txgheca" path="res://Assets/Sprites/Spaceship_main_thrust.png" id="4_ih7oj"]
 [ext_resource type="Script" uid="uid://bdpy8ew8jnwss" path="res://Scenes/speed_label.gd" id="5_3w5a6"]
+[ext_resource type="Texture2D" uid="uid://d2g4bqtcpkpc6" path="res://Assets/Sprites/Spaceship_start_rear_thrust.png" id="5_kveqb"]
+[ext_resource type="Texture2D" uid="uid://vbpjhvkch4rq" path="res://Assets/Sprites/Spaceship_rear_right.png" id="5_ynrgt"]
 [ext_resource type="PackedScene" uid="uid://dyjht1dtyhlcq" path="res://Scenes/thrust_bar.tscn" id="6_6mrrv"]
+[ext_resource type="Texture2D" uid="uid://coyh0aqwuqemf" path="res://Assets/Sprites/Spaceship_finish_rear_thrust.png" id="6_pxcem"]
+[ext_resource type="Texture2D" uid="uid://dfae1xt3ssf60" path="res://Assets/Sprites/Spaceship_thrust_left.png" id="7_ywq8u"]
+[ext_resource type="Texture2D" uid="uid://dg3132s5kig4r" path="res://Assets/Sprites/Spaceship_thrust_right.png" id="8_ynrgt"]
+[ext_resource type="Texture2D" uid="uid://ncmkbfyobmyi" path="res://Assets/Sprites/Spaceship_forward_left.png" id="10_d0v4o"]
+[ext_resource type="Texture2D" uid="uid://cx1t56ln1bhii" path="res://Assets/Sprites/Spaceship_forward_right.png" id="12_fe11j"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_d0v4o"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_ywq8u")
+}],
+"loop": true,
+"name": &"-1_-1",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("7_ywq8u")
+}],
+"loop": true,
+"name": &"-1_0",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("10_d0v4o")
+}],
+"loop": true,
+"name": &"-1_1",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_7i1sl")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_kveqb")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_pxcem")
+}],
+"loop": false,
+"name": &"0_-1",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_7i1sl")
+}],
+"loop": true,
+"name": &"0_0",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_ih7oj")
+}],
+"loop": true,
+"name": &"0_1",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_ynrgt")
+}],
+"loop": true,
+"name": &"1_-1",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("8_ynrgt")
+}],
+"loop": true,
+"name": &"1_0",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("12_fe11j")
+}],
+"loop": true,
+"name": &"1_1",
+"speed": 5.0
+}]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_pb8kf"]
 radius = 19.0
@@ -21,9 +111,11 @@ collision_layer = 2
 collision_mask = 7
 script = ExtResource("2_eju44")
 
-[node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D"]
-scale = Vector2(0.0876494, 0.135193)
-texture = ExtResource("1_aah3r")
+[node name="Sprite2D" type="AnimatedSprite2D" parent="CharacterBody2D"]
+position = Vector2(0, 29)
+scale = Vector2(0.0876494, 0.1275)
+sprite_frames = SubResource("SpriteFrames_d0v4o")
+animation = &"1_0"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
 visibility_layer = 3
