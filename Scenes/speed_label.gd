@@ -1,13 +1,11 @@
 extends Label
 
 
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	pass # Replace with function body.
 
-func set_fuel_label() -> void:
-	self.text = "Speed: %s" % $"../../CharacterBody2D".velocity.length()
+func set_alignment_label() -> void:
+	var speed = $"../../CharacterBody2D".velocity.length()
+	self.text = "Speed: %s" % speed
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
+
 func _process(delta: float) -> void:
-	set_fuel_label()
+	set_alignment_label()
