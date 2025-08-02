@@ -5,6 +5,10 @@ extends Node2D
 @export var thrust_scale_rotate = 0.01
 @export var mass = 1
 
+const LINEAR_THRUST_TO_FUEL_CONSUMPTION_RATE = 1
+const ANGULAR_THRUST_TO_FUEL_CONSUMPTION = 0.01
+
+
 var gravity = Vector2(0,1)*a_scale
 var main_thrust = 0*thrust_scale
 var thrust_rotate = 0.0*thrust_scale_rotate
@@ -13,8 +17,7 @@ var max_thrust_int: int = 20
 var orientation = Vector2(0,-1)
 var angular_vel = 0.0
 var bods = []
-
-
+var fuel_consumed_accumulator = 0
 
 func get_input():
 	var up = Input.is_action_just_pressed('ui_up')
@@ -32,11 +35,17 @@ func get_input():
 		self.get_parent().get_node("ThrustGauge/Label2").text = str(thrust_int)
 	main_thrust = thrust_int*thrust_scale
 	if right:
-		$CharacterBody2D.rotation += 0.1
-		#thrust_rotate += clamp(1.0*thrust_scale_rotate,-3*thrust_scale_rotate,3*thrust_scale_rotate)
+		if thrust_scale != 0:
+			$CharacterBody2D.rotation += 0.1
+			fuel_consumed_accumulator += ANGULAR_THRUST_TO_FUEL_CONSUMPTION
+			decrement_fuel()
+			#thrust_rotate += clamp(1.0*thrust_scale_rotate,-3*thrust_scale_rotate,3*thrust_scale_rotate)
 	if left:
-		$CharacterBody2D.rotation -= 0.1
-		#thrust_rotate += clamp(-1.0*thrust_scale_rotate,-3*thrust_scale_rotate,3*thrust_scale_rotate)
+		if thrust_scale != 0:
+			$CharacterBody2D.rotation -= 0.1
+			fuel_consumed_accumulator += ANGULAR_THRUST_TO_FUEL_CONSUMPTION
+			decrement_fuel()
+			#thrust_rotate += clamp(-1.0*thrust_scale_rotate,-3*thrust_scale_rotate,3*thrust_scale_rotate)
 		
 func calculate_gravitational_force(bodies) -> Vector2:
 	var G = 10000 ## GConstant
@@ -79,4 +88,13 @@ func _physics_process(delta: float) -> void:
 		#basic collision for now. needs logic
 		$CharacterBody2D.velocity = Vector2(0,0)
 		
-		
+	fuel_consumed_accumulator += LINEAR_THRUST_TO_FUEL_CONSUMPTION_RATE*thrust_int*delta
+	decrement_fuel()
+
+func decrement_fuel() -> void:
+	if fuel_consumed_accumulator > 1:
+		fuel_consumed_accumulator = 0
+		get_parent().get_node("FuelBar").reduce()
+	if get_parent().get_node("FuelBar").out_of_fuel():
+		thrust_int = 0
+		thrust_scale = 0
