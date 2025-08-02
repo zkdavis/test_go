@@ -16,6 +16,7 @@ var angular_vel = 0.0
 var alignment_mode_status = false
 var bods = []
 
+#zoom items
 @export var vel_zoom_fudge = 0.001
 var ZoomSpeed = Vector2(5,5)
 var MinZoom = Vector2(0.4, 0.4)
