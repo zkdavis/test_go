@@ -1,0 +1,30 @@
+[gd_scene load_steps=5 format=3 uid="uid://dyjht1dtyhlcq"]
+
+[ext_resource type="Script" uid="uid://ctr2m5at1wnu2" path="res://thrust_bar.gd" id="1_6bbgt"]
+
+[sub_resource type="Gradient" id="Gradient_6bbgt"]
+offsets = PackedFloat32Array(0, 0.512346, 0.518519, 1)
+colors = PackedColorArray(0, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1)
+
+[sub_resource type="Gradient" id="Gradient_a62pg"]
+offsets = PackedFloat32Array(1)
+colors = PackedColorArray(1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_x7x1q"]
+gradient = SubResource("Gradient_a62pg")
+width = 50
+
+[node name="ThrustBar" type="TextureProgressBar"]
+offset_right = 66.0
+offset_bottom = 264.0
+fill_mode = 7
+script = ExtResource("1_6bbgt")
+gradient = SubResource("Gradient_6bbgt")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 0
+offset_top = 131.0
+offset_right = 66.0
+offset_bottom = 263.0
+texture = SubResource("GradientTexture1D_x7x1q")
+flip_v = true

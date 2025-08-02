@@ -1,0 +1,28 @@
+[gd_scene load_steps=5 format=3 uid="uid://bxn7ef02kegfo"]
+
+[ext_resource type="Script" uid="uid://bg687ombcrqva" path="res://Scenes/fuel_bar.gd" id="1_hjidc"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_8mspn"]
+
+[sub_resource type="Theme" id="Theme_hjidc"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ktatb"]
+bg_color = Color(0.827451, 0.188235, 0, 1)
+
+[node name="FuelBar" type="ProgressBar"]
+material = SubResource("CanvasItemMaterial_8mspn")
+offset_right = 265.0
+offset_bottom = 46.0
+theme = SubResource("Theme_hjidc")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_styles/fill = SubResource("StyleBoxFlat_ktatb")
+step = 1.0
+show_percentage = false
+script = ExtResource("1_hjidc")
+
+[node name="FuelLabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 7.0
+offset_top = 12.0
+offset_right = 47.0
+offset_bottom = 35.0

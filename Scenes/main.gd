@@ -8,7 +8,6 @@ func _ready() -> void:
 	$Ship_Scene/CharacterBody2D.position = Vector2(300,400)
 	$Ship_Scene/CharacterBody2D.velocity = Vector2(0,-110)
 	
-	$ThrustGauge/Label2.text = str($Ship_Scene.thrust_int)
 	
 	var p1 = ob_scene.instantiate() as Orbiting_Body
 	$Planets.add_child(p1)
