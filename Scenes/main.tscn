@@ -7,7 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://dyjht1dtyhlcq" path="res://Scenes/thrust_bar.tscn" id="5_kry3j"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8gbba"]
-size = Vector2(42.5007, 1372.81)
+size = Vector2(119.985, 3404.4)
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_jjvhh")
@@ -21,7 +21,7 @@ a_scale = 1
 position = Vector2(8, 80)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2(635.188, 656)
+position = Vector2(246.201, 1404.02)
 rotation = -1.57079
 shape = SubResource("RectangleShape2D_8gbba")
 
@@ -29,14 +29,14 @@ shape = SubResource("RectangleShape2D_8gbba")
 position = Vector2(-72, 376)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D2"]
-position = Vector2(48, 0)
+position = Vector2(-1432, 208)
 shape = SubResource("RectangleShape2D_8gbba")
 
 [node name="StaticBody2D3" type="StaticBody2D" parent="."]
 position = Vector2(560, -8)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D3"]
-position = Vector2(33.5938, 0.000210762)
+position = Vector2(-376, -1064)
 rotation = -1.57079
 shape = SubResource("RectangleShape2D_8gbba")
 
@@ -44,7 +44,7 @@ shape = SubResource("RectangleShape2D_8gbba")
 position = Vector2(1200, 320)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D4"]
-position = Vector2(104, -16)
+position = Vector2(680, 152)
 shape = SubResource("RectangleShape2D_8gbba")
 
 [node name="FuelBar" parent="." instance=ExtResource("3_8gbba")]
