@@ -18,9 +18,8 @@ const MaxZoom = Vector2(3,3)
 ### ship constants
 ###
 const ship_size = 0.2
-const thrust_scale = 1
-const thrust_scale_rotate = 0.01
-const ship_mass = 0.1
+const ship_mass = 1
+const fuel_low_warning = 0.03
 
 ###
 ### Background constants

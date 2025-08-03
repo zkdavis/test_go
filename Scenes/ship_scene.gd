@@ -5,11 +5,13 @@ extends Node2D
 var LINEAR_THRUST_TO_FUEL_CONSUMPTION_RATE = 1
 var ANGULAR_THRUST_TO_FUEL_CONSUMPTION = 0.01
 
+var thrust_scale = 1
+var thrust_scale_rotate = 0.01
 const mass = Constants.ship_mass
 var gravity = Vector2(0,1)*a_scale
 var calc_forces = true
-var main_thrust = 0*Constants.thrust_scale
-var thrust_rotate = 0.0*Constants.thrust_scale_rotate
+var main_thrust = 0*thrust_scale
+var thrust_rotate = 0.0*thrust_scale_rotate
 var thrust_int: int = 0
 var max_thrust_int: int = 20
 var orientation = Vector2(0,-1)
@@ -185,7 +187,7 @@ func get_input(delta):
 	else:
 		animation_thrust_vect.y = 0
 
-	main_thrust = thrust_int*Constants.thrust_scale
+	main_thrust = thrust_int*thrust_scale
 	
 	if right:
 		rotate_ship('right')
@@ -408,7 +410,7 @@ func decrement_fuel() -> void:
 		thrust_int = 0
 		$CanvasLayer/ThrustBar.set_thrust(thrust_int)
 		$CanvasLayer/ThrustBar.deactivate()
-	if $CanvasLayer/FuelBar.fuel < 50 and fuel_low_warning_on == false:
+	if $CanvasLayer/FuelBar.fuel < Constants.fuel_low_warning and fuel_low_warning_on == false:
 		fuel_low_warning_on = true;
 		sound_player_fuel_low_warning.play()
 func stop_all_sounds() -> void:

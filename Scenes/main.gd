@@ -42,8 +42,9 @@ func _ready() -> void:
 	
 	$Ship_Scene/CharacterBody2D.position = player_postion
 	$Ship_Scene/CharacterBody2D.velocity = player_velocity + earth_velocity #- Vector2(14,0)
-	$Ship_Scene.LINEAR_THRUST_TO_FUEL_CONSUMPTION_RATE = 100*$Ship_Scene.LINEAR_THRUST_TO_FUEL_CONSUMPTION_RATE
+	$Ship_Scene.LINEAR_THRUST_TO_FUEL_CONSUMPTION_RATE = 1*$Ship_Scene.LINEAR_THRUST_TO_FUEL_CONSUMPTION_RATE
 	$Ship_Scene.ANGULAR_THRUST_TO_FUEL_CONSUMPTION = 1*$Ship_Scene.ANGULAR_THRUST_TO_FUEL_CONSUMPTION
+	$Ship_Scene.thrust_scale = 0.1*$Ship_Scene.thrust_scale
 
 
 func calculate_gravitational_force(target : Orbiting_Body, source : Orbiting_Body) -> Vector2:

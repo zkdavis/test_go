@@ -15,6 +15,7 @@ func _ready() -> void:
 	get_node("AlarmTimer").set_one_shot(true)
 	sound_player_alarm_generic.stream = preload("res://Scenes/Alarm_generic.mp3")
 	add_child(sound_player_alarm_generic)
+	$Alien/AlienSprite.scale = $Alien/AlienSprite.scale*Constants.ship_size
 
 func adjust_radii(warning_ : float, death_ : float) -> void:
 	warning_radius = clamp(warning_, 0, INF)
