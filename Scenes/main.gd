@@ -11,12 +11,14 @@ func calculate_circular_orbit_location(vel: Vector2,m: float):
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	var radius_of_sun = 2100
+	var mass_sun  = 5000
+	$KillDeserters.adjust_radii(radius_of_sun*10,radius_of_sun*20)
 	
 	
 	var center = get_window().size/2
 	var p1 = ob_scene.instantiate() as Orbiting_Body
-	var radius_of_sun = 2100
-	var mass_sun  = 5000
+	
 	$Planets.add_child(p1)
 	p1.setup(mass_sun, radius_of_sun, center, Vector2(0, 0))
 	p1.set_orange()
