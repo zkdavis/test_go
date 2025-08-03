@@ -9,7 +9,7 @@ const G = 900
 ###
 ### camera constants
 ###
-const vel_zoom_fudge = 0.001
+const vel_zoom_fudge = 0.005
 const ZoomSpeed = Vector2(5,5)
 const MinZoom = Vector2(0.22, 0.22)
 const MaxZoom = Vector2(3,3)

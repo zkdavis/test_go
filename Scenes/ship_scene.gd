@@ -45,6 +45,7 @@ var is_booster_on_previous = false
 var zoomup = false
 var zoomdown = false
 var velocity_zoom = false
+var camera_offset = Vector2(500,0)
 
 var dt_int = 0.1
 var total_path_time = 50
@@ -61,9 +62,10 @@ var shhhhh = false
 var exp_ship = false
 
 
+
 func _ready() -> void:
 	$CharacterBody2D/Camera2D.make_current()
-	$CharacterBody2D/Camera2D.offset = Vector2(500,0)
+	$CharacterBody2D/Camera2D.offset += Vector2(500,0)
 	#sound items
 	sound_player_explosion.stream = preload("res://Scenes/Explosion.wav")
 	sound_player_explosion.volume_linear=0.1
@@ -163,6 +165,12 @@ func get_input(delta):
 		thrust_int=0		
 	
 	if mid_mouse:
+		if velocity_zoom:
+			if $CharacterBody2D/Camera2D.offset == Vector2.ZERO:
+				$CharacterBody2D/Camera2D.offset += Vector2(500,0)
+		else:
+			if $CharacterBody2D/Camera2D.offset != Vector2.ZERO:
+				$CharacterBody2D/Camera2D.offset -= Vector2(500,0)
 		velocity_zoom = !velocity_zoom
 	if scroll_up:
 		zoomup=true
