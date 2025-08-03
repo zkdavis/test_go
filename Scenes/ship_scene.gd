@@ -47,6 +47,7 @@ var zoomdown = false
 var velocity_zoom = false
 
 var dt_int = 0.1
+var total_path_time = 50
 var show_path=true
 
 #sound items
@@ -240,7 +241,7 @@ func get_xn1(fg,v0,x0):
 	var xn1 = vn1*self.dt_int + x0 
 	return xn1
 
-func get_trajectory(total_t=50):
+func get_trajectory(total_t=total_path_time):
 	var t = 0
 	var xn1=$CharacterBody2D.position
 	var vn1 = $CharacterBody2D.velocity

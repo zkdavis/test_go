@@ -38,7 +38,7 @@ func _ready() -> void:
 	$Ship_Scene/CharacterBody2D.velocity = player_velocity
 	$Ship_Scene.LINEAR_THRUST_TO_FUEL_CONSUMPTION_RATE = 1*$Ship_Scene.LINEAR_THRUST_TO_FUEL_CONSUMPTION_RATE
 	$Ship_Scene.ANGULAR_THRUST_TO_FUEL_CONSUMPTION = 1*$Ship_Scene.ANGULAR_THRUST_TO_FUEL_CONSUMPTION
-	$linepath.width = 3
+	
 	
 	var circle_points = []
 	var circle_points_outer = []
@@ -53,6 +53,7 @@ func _ready() -> void:
 	$inner_radius.points = circle_points
 	$outer_radius.points = circle_points_outer
 	$Ship_Scene.get_node("CharacterBody2D/Camera2D").zoom=Vector2(0.8,0.8)
+	$linepath.width = 10
 	
 	var instr = $Ship_Scene/CanvasLayer/instructutions
 	instr.get_node("Label").add_theme_font_size_override("font_size", 15)
@@ -121,7 +122,7 @@ func _physics_process(_delta: float) -> void:
 			suc_label.turn_on()
 			
 		if cont:
-			get_tree().reload_current_scene()
+			get_tree().change_scene_to_file("res://Scenes/level_2.tscn")
 	else:
 		var instr = $Ship_Scene/CanvasLayer/instructutions
 		if instr.get_is_on():
