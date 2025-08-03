@@ -244,6 +244,8 @@ func explode_ship(delta):
 	var explosion_sprite:AnimatedSprite2D = $CharacterBody2D/explosion
 	calc_forces = false
 	ship_exploded_time += delta
+	get_parent().get_node("KillDeserters/Alien").linear_velocity = Vector2.ZERO
+	get_parent().get_node("KillDeserters/Alien").acceleration =0.0
 	if explosion_sprite.visible == false:
 		explosion_sprite.visible=true
 		explosion_sprite.play('default')
@@ -252,6 +254,7 @@ func explode_ship(delta):
 			$CanvasLayer/RestartText.visible = true
 		if ship_sprite.visible:
 			ship_sprite.visible = false
+			get_parent().get_node("KillDeserters/Alien").visible = false
 	if ship_exploded_time > 5:
 		if explosion_sprite.visible:
 			explosion_sprite.visible = false

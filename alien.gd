@@ -1,9 +1,9 @@
 extends RigidBody2D
 
-const ACCELERATION = 10.0
-const SPEED = 200.0
+const ACTIVE_ACCELERATION = 1000.0
 var ship_position : Vector2 = Vector2(1.0,0.0)
-var activated : bool
+var activated : bool = false
+var acceleration = 0.0
 var speed_accumulator = 0.0
 
 func _ready() -> void:
@@ -25,12 +25,12 @@ func store_ship_position(pos : Vector2) -> void:
 func activate_ship() -> void:
 	self.activated = true
 	self.position = 2*ship_position
-	speed_accumulator = SPEED
+	acceleration = ACTIVE_ACCELERATION
 	print("activated!")
 
 func _physics_process(delta: float) -> void:
 	var diff = ship_position - position
-	speed_accumulator += ACCELERATION*delta
+	speed_accumulator += acceleration*delta
 	self.linear_velocity = speed_accumulator*diff.normalized()
 	var angle = atan2(diff.x, -diff.y)
 	while angle <= -PI:
