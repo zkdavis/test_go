@@ -104,6 +104,104 @@ parameters/looping = true
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 layer = -10
 
+[node name="ColorRect4" type="ColorRect" parent="CanvasLayer"]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 15.0
+offset_top = -504.0
+offset_right = 400.0
+offset_bottom = -8.0
+grow_vertical = 0
+color = Color(0.172833, 0.172833, 0.172833, 0.376471)
+
+[node name="RichTextLabel" type="RichTextLabel" parent="CanvasLayer/ColorRect4"]
+layout_mode = 1
+offset_left = 7.0
+offset_top = 8.0
+offset_right = 377.0
+offset_bottom = 488.0
+theme_override_colors/default_color = Color(0, 0.741176, 0, 1)
+text = "Controls:
+
+W: Throttle Up
+S: Throttle Down
+A: Rotate Left
+D: Rotate Right
+Q: Cut Throttle
+Enter: Continue
+
+R: Restart - You can restart anytime
+
+Alt: Auto-Align - Tap once to align with your velocity.  Tap twice to be normal to your velocity. Tap three times for anti-normal. Four to turn off.
+
+Scroll Button: Auto-Zoom Toggle - Zoom will be adjusted with velocity. Default off.
+
+Scroll: Zoom - If Auto-Zoom is off
+"
+
+[node name="ColorRect3" type="ColorRect" parent="CanvasLayer"]
+offset_left = 16.0
+offset_top = 384.0
+offset_right = 336.0
+offset_bottom = 552.0
+color = Color(0.172833, 0.172833, 0.172833, 0.376471)
+
+[node name="RichTextLabel" type="RichTextLabel" parent="CanvasLayer/ColorRect3"]
+layout_mode = 1
+offset_left = 7.0
+offset_top = 8.0
+offset_right = 312.0
+offset_bottom = 152.0
+theme_override_colors/default_color = Color(0, 0.741176, 0, 1)
+text = "A green line shows your predicted position given your current velocity. 
+
+Note: This will look odd when you are orbiting a moving body"
+
 [node name="Background" parent="CanvasLayer" instance=ExtResource("3_opfnp")]
 z_index = -5
 position = Vector2(1258, 1040)
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+offset_left = 8.0
+offset_top = 192.0
+offset_right = 273.0
+offset_bottom = 304.0
+color = Color(0.172833, 0.172833, 0.172833, 0.376471)
+
+[node name="RichTextLabel" type="RichTextLabel" parent="CanvasLayer/ColorRect"]
+layout_mode = 1
+offset_left = 7.0
+offset_top = 8.0
+offset_right = 257.0
+offset_bottom = 104.0
+theme_override_colors/default_color = Color(0, 0.741176, 0, 1)
+text = "Fuel, speed and orientation lock are dispalyed above.  Each level will have a different amount of fuel consumption"
+
+[node name="ColorRect2" type="ColorRect" parent="CanvasLayer"]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -360.0
+offset_top = -184.0
+offset_right = -95.0
+offset_bottom = -88.0
+grow_horizontal = 0
+grow_vertical = 0
+color = Color(0.172833, 0.172833, 0.172833, 0.376471)
+
+[node name="RichTextLabel" type="RichTextLabel" parent="CanvasLayer/ColorRect2"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -250.0
+offset_top = -80.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_colors/default_color = Color(0, 0.741176, 0, 1)
+text = "Throttle increases or decreases thrust in 40 discreet levels. Tap or hold"
