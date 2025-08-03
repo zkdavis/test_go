@@ -1,4 +1,4 @@
-[gd_scene load_steps=101 format=3 uid="uid://bi3dox85cb7bv"]
+[gd_scene load_steps=102 format=3 uid="uid://bi3dox85cb7bv"]
 
 [ext_resource type="Script" uid="uid://xd4i7fvjdw7i" path="res://Scenes/ship_scene.gd" id="1_8g17m"]
 [ext_resource type="Texture2D" uid="uid://cfq4idhgkr1jr" path="res://Assets/Sprites/Spaceship_default.png" id="3_7i1sl"]
@@ -17,6 +17,7 @@
 [ext_resource type="Texture2D" uid="uid://vencbknaq43j" path="res://Assets/Sprites/Explosion_003_Tile_8x8_256x256.png" id="13_d0v4o"]
 [ext_resource type="Texture2D" uid="uid://bgyyl1qnvup8d" path="res://Assets/Sprites/exp2_0.png" id="14_fe11j"]
 [ext_resource type="Script" uid="uid://8rrhfyo1bo2o" path="res://Scenes/alignment_label.gd" id="16_fe11j"]
+[ext_resource type="Script" uid="uid://cq2neejxnouay" path="res://Scenes/success.gd" id="19_ggjaj"]
 [ext_resource type="Script" uid="uid://dt8wnmy8ft5tv" path="res://Scenes/danger_warning.gd" id="19_sft3b"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_d0v4o"]
@@ -797,7 +798,7 @@ offset_bottom = 55.5
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 1, 1, 1)
-script = ExtResource("19_sft3b")
+script = ExtResource("19_ggjaj")
 
 [node name="Label" type="Label" parent="CanvasLayer/Success"]
 layout_mode = 0

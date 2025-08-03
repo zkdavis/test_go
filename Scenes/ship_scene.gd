@@ -55,11 +55,12 @@ var sound_player_rocket_booster = AudioStreamPlayer.new()	# Booster sound
 var sound_player_fuel_low_warning = AudioStreamPlayer.new()	# Fuel low warning
 var sound_player_generic_button_pressed = AudioStreamPlayer.new()
 var fuel_low_warning_on = false
-var shhhhh = true
+var shhhhh = false
 
 
 func _ready() -> void:
 	$CharacterBody2D/Camera2D.make_current()
+	$CharacterBody2D/Camera2D.offset = Vector2(500,0)
 	#sound items
 	sound_player_explosion.stream = preload("res://Scenes/Explosion.wav")
 	sound_player_explosion.volume_linear=0.1
@@ -396,15 +397,21 @@ func _physics_process(delta: float) -> void:
 	
 	var collision_info: KinematicCollision2D = $CharacterBody2D.move_and_collide($CharacterBody2D.velocity*delta)
 	if collision_info:
-		#print("speed: " + str($CharacterBody2D.velocity.length()))
-		if $CharacterBody2D.velocity.length() > def_dead_speed:
-			explode_ship(delta)
+		var col_obj_name = collision_info.get_collider().name
+		if col_obj_name == "Start" or col_obj_name == "Credits":
+			if col_obj_name == "Start":
+				get_tree().change_scene_to_file("res://Scenes/orbit_level.tscn")
+			else:
+				pass
+				#get_tree().change_scene_to_file()
 		else:
-			var expship = check_ship(collision_info)
-			if expship:
+			#print("speed: " + str($CharacterBody2D.velocity.length()))
+			if $CharacterBody2D.velocity.length() > def_dead_speed:
 				explode_ship(delta)
-		var col_object= collision_info.get_collider()
-		$CharacterBody2D.velocity = col_object.linear_velocity
+			else:
+				var expship = check_ship(collision_info)
+				if expship:
+					explode_ship(delta)
 		
 		
 	fuel_consumed_accumulator += LINEAR_THRUST_TO_FUEL_CONSUMPTION_RATE*abs(thrust_int)*delta

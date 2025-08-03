@@ -1,0 +1,97 @@
+[gd_scene load_steps=6 format=3 uid="uid://c24t63kvicoaj"]
+
+[ext_resource type="Script" uid="uid://c2k23p5jsxkgv" path="res://Scenes/main_menu.gd" id="1_ce3w2"]
+[ext_resource type="PackedScene" uid="uid://bi3dox85cb7bv" path="res://Scenes/ship_scene.tscn" id="2_n45e2"]
+[ext_resource type="PackedScene" uid="uid://coys5brwnnnmh" path="res://Scenes/background.tscn" id="3_opfnp"]
+[ext_resource type="PackedScene" uid="uid://dosq8qqhso14o" path="res://Scenes/kill_deserters.tscn" id="4_cp0ys"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ce3w2"]
+size = Vector2(322, 258)
+
+[node name="main_menu" type="Node2D"]
+script = ExtResource("1_ce3w2")
+
+[node name="Ship_Scene" parent="." instance=ExtResource("2_n45e2")]
+a_scale = 1
+
+[node name="Planets" type="Node2D" parent="."]
+
+[node name="linepath" type="Line2D" parent="."]
+points = PackedVector2Array(-312, 608)
+default_color = Color(0.178677, 0.750792, 0, 1)
+
+[node name="Background" parent="." instance=ExtResource("3_opfnp")]
+
+[node name="Constants" type="Node" parent="."]
+
+[node name="KillDeserters" parent="." instance=ExtResource("4_cp0ys")]
+
+[node name="Credits" type="StaticBody2D" parent="."]
+position = Vector2(-360, 48)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Credits"]
+position = Vector2(151, 119)
+shape = SubResource("RectangleShape2D_ce3w2")
+
+[node name="ColorRect" type="ColorRect" parent="Credits/CollisionShape2D"]
+offset_left = -159.0
+offset_top = -127.0
+offset_right = 161.0
+offset_bottom = 129.0
+color = Color(1, 0.45, 0.45, 1)
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Credits/CollisionShape2D"]
+z_index = 10
+clip_contents = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -131.0
+offset_top = -108.0
+offset_right = 137.0
+offset_bottom = 105.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/normal_font_size = 55
+text = "Credits"
+fit_content = true
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Start" type="StaticBody2D" parent="."]
+position = Vector2(104, 32)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Start"]
+position = Vector2(151, 119)
+shape = SubResource("RectangleShape2D_ce3w2")
+
+[node name="ColorRect" type="ColorRect" parent="Start/CollisionShape2D"]
+offset_left = -159.0
+offset_top = -127.0
+offset_right = 161.0
+offset_bottom = 129.0
+color = Color(0, 1, 1, 1)
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Start/CollisionShape2D"]
+z_index = 10
+clip_contents = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -131.0
+offset_top = -108.0
+offset_right = 137.0
+offset_bottom = 105.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/normal_font_size = 50
+text = "Start"
+fit_content = true
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="intro" type="CanvasLayer" parent="."]
