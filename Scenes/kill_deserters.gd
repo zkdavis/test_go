@@ -1,7 +1,7 @@
 extends Node2D
 
 var warning_radius : float = 500.0
-var death_radius : float = 1000.0
+var death_radius : float = 500.0
 var has_entered_warning_zone : bool = false
 var has_entered_death_zone : bool = false
 var sound_player_alarm_generic = AudioStreamPlayer.new()
