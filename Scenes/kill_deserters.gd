@@ -24,7 +24,9 @@ func adjust_radii(warning_ : float, death_ : float) -> void:
 
 func store_ship_position_and_process(pos : Vector2) -> void:
 	get_node("Alien").store_ship_position(pos)
-	var radius = pos.length()
+	var center = Vector2(get_window().size.x,get_window().size.y)
+	var diff = pos - center
+	var radius = diff.length()
 	if !has_entered_warning_zone and (radius > warning_radius):
 		has_entered_warning_zone = true
 		flash_warning()

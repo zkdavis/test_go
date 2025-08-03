@@ -17,7 +17,7 @@
 [ext_resource type="Texture2D" uid="uid://vencbknaq43j" path="res://Assets/Sprites/Explosion_003_Tile_8x8_256x256.png" id="13_d0v4o"]
 [ext_resource type="Texture2D" uid="uid://bgyyl1qnvup8d" path="res://Assets/Sprites/exp2_0.png" id="14_fe11j"]
 [ext_resource type="Script" uid="uid://8rrhfyo1bo2o" path="res://Scenes/alignment_label.gd" id="16_fe11j"]
-[ext_resource type="Script" path="res://Scenes/danger_warning.gd" id="19_sft3b"]
+[ext_resource type="Script" uid="uid://dt8wnmy8ft5tv" path="res://Scenes/danger_warning.gd" id="19_sft3b"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_d0v4o"]
 animations = [{
@@ -730,10 +730,17 @@ offset_right = 273.0
 offset_bottom = 54.0
 
 [node name="ThrustBar" parent="CanvasLayer" instance=ExtResource("6_6mrrv")]
-offset_left = 1208.0
-offset_top = 440.0
-offset_right = 1274.0
-offset_bottom = 704.0
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -72.0
+offset_top = -271.0
+offset_right = -6.0
+offset_bottom = -7.0
+grow_horizontal = 0
+grow_vertical = 0
 
 [node name="RestartText" type="RichTextLabel" parent="CanvasLayer"]
 visible = false
@@ -756,9 +763,17 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="DangerWarning" type="ColorRect" parent="CanvasLayer"]
-offset_top = 304.0
-offset_right = 1280.0
-offset_bottom = 415.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -640.0
+offset_top = -55.5
+offset_right = 640.0
+offset_bottom = 55.5
+grow_horizontal = 2
+grow_vertical = 2
 color = Color(0.741176, 0, 0, 0.501961)
 script = ExtResource("19_sft3b")
 

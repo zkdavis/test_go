@@ -19,6 +19,7 @@ var angular_vel = 0.0
 var bods = []
 var line: Line2D
 var fuel_consumed_accumulator = 0
+var ship_size = Constants.ship_size
 
 var alignment_mode_status = 0
 var alignment_is_rotating = false 
@@ -58,9 +59,6 @@ var fuel_low_warning_on = false
 
 func _ready() -> void:
 	$CharacterBody2D/Camera2D.make_current()
-	$CharacterBody2D/CollisionPolygon2D.scale = $CharacterBody2D/CollisionPolygon2D.scale*Constants.ship_size
-	$CharacterBody2D/Sprite2D.scale = $CharacterBody2D/Sprite2D.scale*Constants.ship_size
-	$CharacterBody2D/CollisionPolygon2D.position -= Vector2(1,29)*Constants.ship_size
 	#sound items
 	sound_player_explosion.stream = preload("res://Scenes/Explosion.wav")
 	sound_player_explosion.volume_db = -10
@@ -75,6 +73,15 @@ func _ready() -> void:
 	sound_player_generic_button_pressed.volume_db = -5
 	add_child(sound_player_generic_button_pressed)
 	
+func rescale_ship(fudge: float) -> void:
+	self.ship_size = fudge
+	$CharacterBody2D/CollisionPolygon2D.scale = $CharacterBody2D/CollisionPolygon2D.scale*ship_size
+	$CharacterBody2D/Sprite2D.scale = $CharacterBody2D/Sprite2D.scale*ship_size
+	$CharacterBody2D/CollisionPolygon2D.position -= Vector2(1,29)*ship_size
+
+func change_thrust_scale(thrust_scale2 : float) -> void:
+	self.thrust_scale = thrust_scale2
+
 func set_current_animation():
 	var cur_an = $CharacterBody2D/Sprite2D.animation
 	var sprite: AnimatedSprite2D = $CharacterBody2D/Sprite2D
