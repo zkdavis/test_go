@@ -17,14 +17,15 @@ func _ready() -> void:
 	
 	
 	var center = get_window().size/2
+	var center_float = Vector2(center.x,center.y)
 	var p1 = ob_scene.instantiate() as Orbiting_Body
 	
 	$Planets.add_child(p1)
-	p1.setup(mass_sun, radius_of_sun, center, Vector2(0, 0))
+	p1.setup(mass_sun, radius_of_sun, center_float, Vector2(0, 0))
 	p1.set_yellow()
 	
 	
-	var earth_position = center
+	var earth_position = center_float
 	var earth_mass = 500.0
 	var earth_velocity = Vector2(-37, 0)
 	var earth_radius = 100
@@ -35,6 +36,18 @@ func _ready() -> void:
 	p2.setup(earth_mass, earth_radius, earth_position, earth_velocity)
 	p2.set_green()
 	
+	var mars_position = center_float
+	var mars_mass = earth_mass*0.6
+	var mars_radius = earth_radius*0.9
+	var mars_velocity = Vector2(-32,0)
+	var circular_sun_mars_orbit = calculate_circular_orbit_location(mars_velocity,mass_sun)
+	mars_position += Vector2(-1,-1).normalized()*circular_sun_mars_orbit
+	var p3 = ob_scene.instantiate() as Orbiting_Body
+	p3.name='mars'
+	$Planets.add_child(p3)
+	p3.setup(mars_mass, mars_radius, mars_position, mars_velocity)
+	p3.set_red()
+	
 	var player_velocity = Vector2(-55,0)
 	var circular_orbit_earth = calculate_circular_orbit_location(player_velocity,earth_mass)
 	var player_postion = earth_position 
@@ -42,18 +55,18 @@ func _ready() -> void:
 	
 	$Ship_Scene/CharacterBody2D.position = player_postion
 	$Ship_Scene/CharacterBody2D.velocity = player_velocity + earth_velocity #- Vector2(14,0)
-	$Ship_Scene.LINEAR_THRUST_TO_FUEL_CONSUMPTION_RATE = 1*$Ship_Scene.LINEAR_THRUST_TO_FUEL_CONSUMPTION_RATE
-	$Ship_Scene.ANGULAR_THRUST_TO_FUEL_CONSUMPTION = 1*$Ship_Scene.ANGULAR_THRUST_TO_FUEL_CONSUMPTION
-	$Ship_Scene.thrust_scale = 0.5*$Ship_Scene.thrust_scale
+	$Ship_Scene.LINEAR_THRUST_TO_FUEL_CONSUMPTION_RATE = 0.5*$Ship_Scene.LINEAR_THRUST_TO_FUEL_CONSUMPTION_RATE
+	$Ship_Scene.ANGULAR_THRUST_TO_FUEL_CONSUMPTION = 0.2*$Ship_Scene.ANGULAR_THRUST_TO_FUEL_CONSUMPTION
+	$Ship_Scene.thrust_scale = 1*$Ship_Scene.thrust_scale
 	$Ship_Scene.rescale_ship(0.5)
-	$Ship_Scene.get_node("CharacterBody2D/Camera2D").zoom=Vector2(0.6,0.6)
+	$Ship_Scene.get_node("CharacterBody2D/Camera2D").zoom=Vector2(0.5,0.5)
 	$Ship_Scene.dt_int=0.008
 	$Ship_Scene.total_path_time=4
 	$linepath.width=3
 	
 	var instr = $Ship_Scene/CanvasLayer/instructutions
 	instr.get_node("Label").add_theme_font_size_override("font_size", 15)
-	instr.get_node("Label").text = "Earth communication satellites suck. Remove them by either leaving the solar system or crashing into the sun. \n \n PRESS ENTER TO START"
+	instr.get_node("Label").text = "It is finally time. Leave your lush home planet for the inhospitable red desert planet. For some reason... You will have to land on the surface. \n \n PRESS ENTER TO START \n Hint: Keep your speed below 150 when landing." 
 	if !instr.get_is_on():
 		instr.turn_on()
 
@@ -74,18 +87,8 @@ func calculate_gravitational_potential(pos,mass, source : Orbiting_Body):
 	return force_magnitude
 	
 func check_for_succes():
-	var sun_body = $Planets.get_children()[0]
-	var earth_body = $Planets.get_children()[1]
-	var sun_potential = calculate_gravitational_potential($Ship_Scene.position,$Ship_Scene.mass,sun_body)
-	sun_potential += calculate_gravitational_potential($Ship_Scene.position,$Ship_Scene.mass,earth_body)
-	var direction = $Ship_Scene.position - sun_body.get_pos()
-	var tang_direct = Vector2(direction.y,direction.x).normalized()
-	var ship_vel = $Ship_Scene/CharacterBody2D.velocity
-	var ship_tan_vel =ship_vel.dot(tang_direct)
-	var ship_kin_energy = 0.5*$Ship_Scene.mass * (ship_vel.length()**2)
-	if(ship_kin_energy>2*sun_potential):
-		print("success")
-		success=true
+	var mars_body = $Planets.get_children()[2]
+	
 	
 func _physics_process(_delta: float) -> void:
 	var parent_node = get_node("Planets")
@@ -112,7 +115,7 @@ func _physics_process(_delta: float) -> void:
 			suc_label.turn_on()
 			
 		if cont:
-			get_tree().change_scene_to_file("res://Scenes/level_3.tscn")
+			get_tree().change_scene_to_file("res://Scenes/credits.tscn")
 	else:
 		var instr = $Ship_Scene/CanvasLayer/instructutions
 		if instr.get_is_on():

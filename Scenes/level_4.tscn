@@ -1,0 +1,23 @@
+[gd_scene load_steps=5 format=3 uid="uid://xf6bv6wcnmek"]
+
+[ext_resource type="Script" uid="uid://03g4wpfsnc53" path="res://Scenes/level_4.gd" id="1_wi344"]
+[ext_resource type="PackedScene" uid="uid://bi3dox85cb7bv" path="res://Scenes/ship_scene.tscn" id="2_f6i20"]
+[ext_resource type="PackedScene" uid="uid://coys5brwnnnmh" path="res://Scenes/background.tscn" id="3_dvrgg"]
+[ext_resource type="PackedScene" uid="uid://dosq8qqhso14o" path="res://Scenes/kill_deserters.tscn" id="4_wk15n"]
+
+[node name="Level4" type="Node2D"]
+script = ExtResource("1_wi344")
+
+[node name="Ship_Scene" parent="." instance=ExtResource("2_f6i20")]
+a_scale = 1
+
+[node name="Planets" type="Node2D" parent="."]
+
+[node name="linepath" type="Line2D" parent="."]
+default_color = Color(0.178677, 0.750792, 0, 1)
+
+[node name="Background" parent="." instance=ExtResource("3_dvrgg")]
+
+[node name="Constants" type="Node" parent="."]
+
+[node name="KillDeserters" parent="." instance=ExtResource("4_wk15n")]

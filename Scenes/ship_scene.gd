@@ -33,7 +33,7 @@ var held_time = 0
 var max_hold_time=0.5
 var thrust_add =0
 
-const def_dead_speed=100
+const def_dead_speed=150
 const oriented_dead_spead=1
 var ship_exploded_time=0
 
@@ -57,6 +57,8 @@ var sound_player_fuel_low_warning = AudioStreamPlayer.new()	# Fuel low warning
 var sound_player_generic_button_pressed = AudioStreamPlayer.new()
 var fuel_low_warning_on = false
 var shhhhh = false
+
+var exp_ship = false
 
 
 func _ready() -> void:
@@ -398,7 +400,9 @@ func _physics_process(delta: float) -> void:
 	
 	var collision_info: KinematicCollision2D = $CharacterBody2D.move_and_collide($CharacterBody2D.velocity*delta)
 	if collision_info:
-		var col_obj_name = collision_info.get_collider().name
+		var collider = collision_info.get_collider()
+		var col_obj_name = collider.name
+
 		if col_obj_name == "Start" or col_obj_name == "Credits":
 			if col_obj_name == "Start":
 				get_tree().change_scene_to_file("res://Scenes/orbit_level.tscn")
@@ -407,13 +411,22 @@ func _physics_process(delta: float) -> void:
 				#get_tree().change_scene_to_file()
 		else:
 			#print("speed: " + str($CharacterBody2D.velocity.length()))
+			
 			if $CharacterBody2D.velocity.length() > def_dead_speed:
 				explode_ship(delta)
+				exp_ship=true
 			else:
 				var expship = check_ship(collision_info)
 				if expship:
 					explode_ship(delta)
-		
+					exp_ship=true
+			# Check if collided object is an Orbiting_Body
+			if !exp_ship:
+				var orbiting_body = collider.get_parent() as Orbiting_Body
+				if orbiting_body != null:
+					if orbiting_body.get_mass() == 300:
+						self.get_parent().success=true
+			
 		
 	fuel_consumed_accumulator += LINEAR_THRUST_TO_FUEL_CONSUMPTION_RATE*abs(thrust_int)*delta
 	decrement_fuel()
