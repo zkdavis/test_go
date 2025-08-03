@@ -21,11 +21,11 @@ func _ready() -> void:
 	
 	$Planets.add_child(p1)
 	p1.setup(mass_sun, radius_of_sun, center, Vector2(0, 0))
-	p1.set_orange()
+	p1.set_yellow()
 	
 	
 	var earth_position = center
-	var earth_mass = 200.0
+	var earth_mass = 500.0
 	var earth_velocity = Vector2(-37, 0)
 	var earth_radius = 100
 	var circular_sun_orbit = calculate_circular_orbit_location(earth_velocity,mass_sun)
@@ -35,7 +35,7 @@ func _ready() -> void:
 	p2.setup(earth_mass, earth_radius, earth_position, earth_velocity)
 	p2.set_green()
 	
-	var player_velocity = Vector2(-35,0)
+	var player_velocity = Vector2(-55,0)
 	var circular_orbit_earth = calculate_circular_orbit_location(player_velocity,earth_mass)
 	var player_postion = earth_position 
 	player_postion.y -= circular_orbit_earth #- 40
@@ -44,7 +44,7 @@ func _ready() -> void:
 	$Ship_Scene/CharacterBody2D.velocity = player_velocity + earth_velocity #- Vector2(14,0)
 	$Ship_Scene.LINEAR_THRUST_TO_FUEL_CONSUMPTION_RATE = 1*$Ship_Scene.LINEAR_THRUST_TO_FUEL_CONSUMPTION_RATE
 	$Ship_Scene.ANGULAR_THRUST_TO_FUEL_CONSUMPTION = 1*$Ship_Scene.ANGULAR_THRUST_TO_FUEL_CONSUMPTION
-	$Ship_Scene.thrust_scale = 0.1*$Ship_Scene.thrust_scale
+	$Ship_Scene.thrust_scale = 0.5*$Ship_Scene.thrust_scale
 
 
 func calculate_gravitational_force(target : Orbiting_Body, source : Orbiting_Body) -> Vector2:
