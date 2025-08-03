@@ -45,7 +45,7 @@ var zoomup = false
 var zoomdown = false
 var velocity_zoom = true
 
-var dt_int = 0.003
+var dt_int = 0.005
 var show_path=true
 
 #sound items
@@ -230,13 +230,14 @@ func get_xn1(fg,v0,x0):
 	var xn1 = vn1*self.dt_int + x0 
 	return xn1
 
-func get_trajectory(total_t=4):
+func get_trajectory(total_t=8):
 	var t = 0
 	var xn1=$CharacterBody2D.position
 	var vn1 = $CharacterBody2D.velocity
 	var trajectory = []
 	while(t<total_t):
 		var fg = cal_fg(bods,xn1,vn1)
+		fg = clamp(fg.length(),0,1e3/self.mass)*fg.normalized()
 		vn1 += self.dt_int*fg
 		xn1 = get_xn1(fg,vn1,xn1)		
 		t += self.dt_int
