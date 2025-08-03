@@ -1,14 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://eypmw80qoj3s"]
+[gd_scene load_steps=5 format=3 uid="uid://eypmw80qoj3s"]
 
 [ext_resource type="Script" uid="uid://b4fq84nvi4hgv" path="res://Scenes/main.gd" id="1_jjvhh"]
 [ext_resource type="PackedScene" uid="uid://bi3dox85cb7bv" path="res://Scenes/ship_scene.tscn" id="2_8gbba"]
 [ext_resource type="PackedScene" uid="uid://coys5brwnnnmh" path="res://Scenes/background.tscn" id="3_jjvhh"]
-[ext_resource type="Script" uid="uid://c1s005knevxeh" path="res://Scenes/constants.gd" id="4_jjvhh"]
 [ext_resource type="PackedScene" uid="uid://dosq8qqhso14o" path="res://Scenes/kill_deserters.tscn" id="4_jjvhh"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_8gbba"]
-size = Vector2(119.985, 3404.4)
-
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_jjvhh")
@@ -22,12 +17,8 @@ a_scale = 1
 default_color = Color(0.178677, 0.750792, 0, 1)
 
 [node name="Background" parent="." instance=ExtResource("3_jjvhh")]
-
 visible = false
 
 [node name="Constants" type="Node" parent="."]
-script = ExtResource("4_jjvhh")
-
 
 [node name="KillDeserters" parent="." instance=ExtResource("4_jjvhh")]
-
