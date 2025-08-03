@@ -1,7 +1,6 @@
-[gd_scene load_steps=101 format=3 uid="uid://bi3dox85cb7bv"]
+[gd_scene load_steps=100 format=3 uid="uid://bi3dox85cb7bv"]
 
 [ext_resource type="Script" uid="uid://xd4i7fvjdw7i" path="res://Scenes/ship_scene.gd" id="1_8g17m"]
-[ext_resource type="Script" uid="uid://dvgyw5lidoj85" path="res://Scenes/ship_body.gd" id="2_eju44"]
 [ext_resource type="Texture2D" uid="uid://cfq4idhgkr1jr" path="res://Assets/Sprites/Spaceship_default.png" id="3_7i1sl"]
 [ext_resource type="Texture2D" uid="uid://jyw2orxwetho" path="res://Assets/Sprites/Spaceship_rear_left.png" id="3_ywq8u"]
 [ext_resource type="PackedScene" uid="uid://bxn7ef02kegfo" path="res://Scenes/fuel_bar.tscn" id="4_eqixp"]
@@ -684,10 +683,8 @@ script = ExtResource("1_8g17m")
 [node name="CharacterBody2D" type="CharacterBody2D" parent="."]
 collision_layer = 2
 collision_mask = 7
-script = ExtResource("2_eju44")
 
 [node name="Sprite2D" type="AnimatedSprite2D" parent="CharacterBody2D"]
-position = Vector2(0, 29)
 scale = Vector2(0.0876494, 0.1275)
 sprite_frames = SubResource("SpriteFrames_d0v4o")
 animation = &"1_0"

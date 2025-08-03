@@ -41,10 +41,6 @@ var change_orb_potent=false
 
 
 #zoom items
-@export var vel_zoom_fudge = 0.001
-var ZoomSpeed = Vector2(5,5)
-var MinZoom = Vector2(0.4, 0.4)
-var MaxZoom = Vector2(1,1)
 var zoomup = false
 var zoomdown = false
 var velocity_zoom = true
@@ -55,6 +51,9 @@ var show_path=true
 
 func _ready() -> void:
 	$CharacterBody2D/Camera2D.make_current()
+	$CharacterBody2D/CollisionPolygon2D.scale = $CharacterBody2D/CollisionPolygon2D.scale*Constants.ship_size
+	$CharacterBody2D/Sprite2D.scale = $CharacterBody2D/Sprite2D.scale*Constants.ship_size
+	$CharacterBody2D/CollisionPolygon2D.position -= Vector2(1,29)*Constants.ship_size
 
 func set_current_animation():
 	var cur_an = $CharacterBody2D/Sprite2D.animation
@@ -170,7 +169,6 @@ func get_input(delta):
 	if left:
 		rotate_ship('left')
 
-			#thrust_rotate += clamp(-1.0*thrust_scale_rotate,-3*thrust_scale_rotate,3*thrust_scale_rotate)
 	if left_up:
 		animation_thrust_vect.x = 0
 	if right_up:
@@ -330,15 +328,14 @@ func _physics_process(delta: float) -> void:
 	#camera_items
 	if zoomup and velocity_zoom == false:
 		zoomup=false
-		$CharacterBody2D/Camera2D.zoom = clamp($CharacterBody2D/Camera2D.zoom, MinZoom, MaxZoom) + ZoomSpeed*delta
+		$CharacterBody2D/Camera2D.zoom = clamp($CharacterBody2D/Camera2D.zoom, Constants.MinZoom, Constants.MaxZoom) + Constants.ZoomSpeed*delta
+		
 	if zoomdown and velocity_zoom == false:
 		zoomdown=false
-		$CharacterBody2D/Camera2D.zoom= clamp($CharacterBody2D/Camera2D.zoom, MinZoom, MaxZoom) - ZoomSpeed*delta
+		$CharacterBody2D/Camera2D.zoom= clamp($CharacterBody2D/Camera2D.zoom, Constants.MinZoom, Constants.MaxZoom) - Constants.ZoomSpeed*delta
 	if velocity_zoom:
 		var v_l = $CharacterBody2D.velocity
-		$CharacterBody2D/Camera2D.zoom = (MaxZoom*(1 - vel_zoom_fudge*v_l.length())).clamp(MinZoom,MaxZoom)
-
-		
+		$CharacterBody2D/Camera2D.zoom = (Constants.MaxZoom*(1 - Constants.vel_zoom_fudge*v_l.length())).clamp(Constants.MinZoom,Constants.MaxZoom)
 	
 	var collision_info: KinematicCollision2D = $CharacterBody2D.move_and_collide($CharacterBody2D.velocity*delta)
 	if collision_info:

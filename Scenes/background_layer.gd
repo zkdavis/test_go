@@ -19,7 +19,7 @@ func setup(file, layer: int, speed: float) -> void:
 	set_ignore_camera_scroll(false)
 	set_repeat_size(box)
 	set_scroll_scale(Vector2.ONE*speed)
-	set_repeat_times(8)
+	set_repeat_times(Constants.background_repeat)
 
 func _process(delta: float) -> void:
 	pass

@@ -1,9 +1,10 @@
 class_name Orbiting_Body
 extends Node2D
 
+
 var draw_pot: bool = false
 var radius: float = 1.0
-const MAKE_PIXELS_BIGGER = 75
+const MAKE_PIXELS_BIGGER = 1
 const RED = Color(0.933333,0.615686,0.58039)
 const ORANGE = Color(0.976470,0.796078,0.647058)
 const GREEN = Color(0.709803,0.854901,0.72941)
