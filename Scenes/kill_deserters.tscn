@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://dosq8qqhso14o"]
+
+[ext_resource type="Script" uid="uid://cvqcclu7hb256" path="res://Scenes/kill_deserters.gd" id="1_q2bmm"]
+[ext_resource type="Script" uid="uid://cfqhd8wx02sse" path="res://alien.gd" id="1_x5va2"]
+[ext_resource type="Texture2D" uid="uid://beejgwjjyanr4" path="res://Assets/Sprites/aliens.png" id="2_q2bmm"]
+
+[node name="KillDeserters" type="Node2D"]
+script = ExtResource("1_q2bmm")
+
+[node name="Alien" type="RigidBody2D" parent="."]
+rotation = 3.14159
+script = ExtResource("1_x5va2")
+
+[node name="AlienSprite" type="Sprite2D" parent="Alien"]
+scale = Vector2(0.065, 0.065)
+texture = ExtResource("2_q2bmm")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Alien"]
+polygon = PackedVector2Array(-28, 29, 28, 29, 0, -29)
+
+[node name="Timer" type="Timer" parent="."]
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
