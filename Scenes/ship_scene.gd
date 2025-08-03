@@ -44,9 +44,9 @@ var is_booster_on_previous = false
 #zoom items
 var zoomup = false
 var zoomdown = false
-var velocity_zoom = true
+var velocity_zoom = false
 
-var dt_int = 0.005
+var dt_int = 0.1
 var show_path=true
 
 #sound items
@@ -61,16 +61,16 @@ func _ready() -> void:
 	$CharacterBody2D/Camera2D.make_current()
 	#sound items
 	sound_player_explosion.stream = preload("res://Scenes/Explosion.wav")
-	sound_player_explosion.volume_db = -10
+	sound_player_explosion.volume_linear=0.1
 	add_child(sound_player_explosion)
 	sound_player_rocket_booster.stream = preload("res://Scenes/Rocket_booster.wav")
-	sound_player_rocket_booster.volume_db = -5
+	sound_player_rocket_booster.volume_linear=0.05
 	add_child(sound_player_rocket_booster)
 	sound_player_fuel_low_warning.stream = preload("res://Scenes/Fuel_low_warning.wav")
-	sound_player_fuel_low_warning.volume_db = -5
+	sound_player_fuel_low_warning.volume_linear=0.05
 	add_child(sound_player_fuel_low_warning)
 	sound_player_generic_button_pressed.stream = preload("res://Scenes/generic_button_sound.wav")
-	sound_player_generic_button_pressed.volume_db = -5
+	sound_player_generic_button_pressed.volume_linear=0.05
 	add_child(sound_player_generic_button_pressed)
 	
 func rescale_ship(fudge: float) -> void:
@@ -133,7 +133,7 @@ func get_input(delta):
 	var restart = Input.is_action_just_pressed('restart')
 	var align_pressed = Input.is_action_just_pressed("alignment_toggle_mode")
 	var change_orb_pot = Input.is_action_just_pressed("change_orb_pot")
-	
+	var kill_thrust = Input.is_action_just_pressed('kill_thrust')
 	
 	var cur_animation = $CharacterBody2D/Sprite2D.animation
 	
@@ -154,7 +154,8 @@ func get_input(delta):
 		stop_all_sounds()
 		get_tree().reload_current_scene()
 		
-			
+	if kill_thrust:
+		thrust_int=0		
 	
 	if mid_mouse:
 		velocity_zoom = !velocity_zoom
@@ -237,7 +238,7 @@ func get_xn1(fg,v0,x0):
 	var xn1 = vn1*self.dt_int + x0 
 	return xn1
 
-func get_trajectory(total_t=8):
+func get_trajectory(total_t=50):
 	var t = 0
 	var xn1=$CharacterBody2D.position
 	var vn1 = $CharacterBody2D.velocity
@@ -252,7 +253,7 @@ func get_trajectory(total_t=8):
 	return trajectory
 
 func trajectory_draw(trajectory):
-	for i in range(0,len(trajectory),50):
+	for i in range(0,len(trajectory),int(0.01*len(trajectory))):
 		var p = trajectory[i]
 		line.add_point(p)
 	
@@ -399,8 +400,8 @@ func _physics_process(delta: float) -> void:
 			var expship = check_ship(collision_info)
 			if expship:
 				explode_ship(delta)
-		#basic collision for now. needs logic
-		$CharacterBody2D.velocity = Vector2(0,0)
+		var col_object= collision_info.get_collider()
+		$CharacterBody2D.velocity = col_object.linear_velocity
 		
 		
 	fuel_consumed_accumulator += LINEAR_THRUST_TO_FUEL_CONSUMPTION_RATE*abs(thrust_int)*delta

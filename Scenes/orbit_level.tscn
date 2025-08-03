@@ -14,6 +14,7 @@ a_scale = 1
 [node name="Planets" type="Node2D" parent="."]
 
 [node name="linepath" type="Line2D" parent="."]
+points = PackedVector2Array(-312, 608)
 default_color = Color(0.178677, 0.750792, 0, 1)
 
 [node name="Background" parent="." instance=ExtResource("3_1pau3")]
@@ -21,3 +22,11 @@ default_color = Color(0.178677, 0.750792, 0, 1)
 [node name="Constants" type="Node" parent="."]
 
 [node name="KillDeserters" parent="." instance=ExtResource("5_plner")]
+
+[node name="inner_radius" type="Line2D" parent="."]
+closed = true
+default_color = Color(1, 0, 0.216667, 1)
+
+[node name="outer_radius" type="Line2D" parent="."]
+closed = true
+default_color = Color(1, 0, 0.215686, 1)

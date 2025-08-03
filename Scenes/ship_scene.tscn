@@ -783,3 +783,48 @@ offset_right = 1282.0
 offset_bottom = 109.0
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="Success" type="ColorRect" parent="CanvasLayer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -640.0
+offset_top = -55.5
+offset_right = 640.0
+offset_bottom = 55.5
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 1, 1, 1)
+script = ExtResource("19_sft3b")
+
+[node name="Label" type="Label" parent="CanvasLayer/Success"]
+layout_mode = 0
+offset_right = 1282.0
+offset_bottom = 109.0
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="instructutions" type="ColorRect" parent="CanvasLayer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -640.0
+offset_top = -77.0
+offset_right = 640.0
+offset_bottom = 56.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.215686, 0.215686, 0.215686, 1)
+script = ExtResource("19_sft3b")
+
+[node name="Label" type="RichTextLabel" parent="CanvasLayer/instructutions"]
+layout_mode = 0
+offset_right = 1282.0
+offset_bottom = 121.0
+autowrap_mode = 2
+horizontal_alignment = 1
+vertical_alignment = 1
