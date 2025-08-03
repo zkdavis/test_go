@@ -3,7 +3,7 @@ extends RichTextLabel
 
 var credit_text = "[center]
 [b]Game Design[/b]
-ZD, MV, HC
+MV, HC, ZD
 
 
 [b]Programming[/b]
@@ -11,9 +11,13 @@ ZD, MV, HC
 
 
 [b]Art[/b]
-ZD, MV, HC
+HC, ZD, MV
 
+[b]Ship Graphic[/b]
+Flat Spaceship with parts        by        FFMStudios, Fernando Ferreira
 
+[b]Explosion Texture[/b]
+Explosion Tilesets        by        elnineo
 
 [b]Music[/b]
 
