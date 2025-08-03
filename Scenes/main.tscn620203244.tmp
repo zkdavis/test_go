@@ -1,0 +1,51 @@
+[gd_scene load_steps=5 format=3 uid="uid://eypmw80qoj3s"]
+
+[ext_resource type="Script" uid="uid://b4fq84nvi4hgv" path="res://Scenes/main.gd" id="1_jjvhh"]
+[ext_resource type="PackedScene" uid="uid://bi3dox85cb7bv" path="res://Scenes/ship_scene.tscn" id="2_8gbba"]
+[ext_resource type="PackedScene" uid="uid://coys5brwnnnmh" path="res://Scenes/background.tscn" id="3_jjvhh"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8gbba"]
+size = Vector2(119.985, 3404.4)
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_jjvhh")
+
+[node name="Ship_Scene" parent="." instance=ExtResource("2_8gbba")]
+a_scale = 1
+
+[node name="Planets" type="Node2D" parent="."]
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(8, 80)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(246.201, 1404.02)
+rotation = -1.57079
+shape = SubResource("RectangleShape2D_8gbba")
+
+[node name="StaticBody2D2" type="StaticBody2D" parent="."]
+position = Vector2(-72, 376)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D2"]
+position = Vector2(-1432, 208)
+shape = SubResource("RectangleShape2D_8gbba")
+
+[node name="StaticBody2D3" type="StaticBody2D" parent="."]
+position = Vector2(560, -8)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D3"]
+position = Vector2(-376, -1064)
+rotation = -1.57079
+shape = SubResource("RectangleShape2D_8gbba")
+
+[node name="StaticBody2D4" type="StaticBody2D" parent="."]
+position = Vector2(1200, 320)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D4"]
+position = Vector2(680, 152)
+shape = SubResource("RectangleShape2D_8gbba")
+
+[node name="linepath" type="Line2D" parent="."]
+default_color = Color(0.178677, 0.750792, 0, 1)
+
+[node name="Background" parent="." instance=ExtResource("3_jjvhh")]
