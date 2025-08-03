@@ -1,8 +1,8 @@
 extends Node2D
 
 const MIDNIGHT_BLUE = Color(0.061, 0.061, 0.168, 1.0)
-const CLOSER_STAR_LAYER : int = -2
-const DISTANT_STAR_LAYER : int = -3
+const CLOSER_STAR_LAYER : int = -5
+const DISTANT_STAR_LAYER : int = -6
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:

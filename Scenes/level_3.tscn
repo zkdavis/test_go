@@ -18,8 +18,6 @@ a_scale = 1
 points = PackedVector2Array(-312, 608)
 default_color = Color(0.178677, 0.750792, 0, 1)
 
-[node name="Background" parent="." instance=ExtResource("3_qf6rc")]
-
 [node name="Constants" type="Node" parent="."]
 
 [node name="KillDeserters" parent="." instance=ExtResource("4_53xsp")]
@@ -37,3 +35,10 @@ stream = ExtResource("5_vwg62")
 volume_db = -26.0
 autoplay = true
 parameters/looping = true
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = -10
+
+[node name="Background" parent="CanvasLayer" instance=ExtResource("3_qf6rc")]
+z_index = -5
+position = Vector2(1258, 1040)

@@ -17,8 +17,6 @@ a_scale = 1
 [node name="linepath" type="Line2D" parent="."]
 default_color = Color(0.178677, 0.750792, 0, 1)
 
-[node name="Background" parent="." instance=ExtResource("2_1q6tm")]
-
 [node name="Constants" type="Node" parent="."]
 
 [node name="KillDeserters" parent="." instance=ExtResource("3_v36qu")]
@@ -28,3 +26,10 @@ stream = ExtResource("5_v36qu")
 volume_db = -26.0
 autoplay = true
 parameters/looping = true
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = -10
+
+[node name="Background" parent="CanvasLayer" instance=ExtResource("2_1q6tm")]
+z_index = -5
+position = Vector2(1258, 1040)

@@ -15,6 +15,7 @@ func setup(file, layer: int, speed: float) -> void:
 	rect.set_size(box)
 	rect.set_texture(pictex)
 	self.visibility_layer = layer
+	self.z_index = layer
 	#set_ignore_camera_scroll(true)
 	set_ignore_camera_scroll(false)
 	set_repeat_size(box)

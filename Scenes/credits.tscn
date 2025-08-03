@@ -54,13 +54,17 @@ a_scale = 1
 [node name="linepath" type="Line2D" parent="."]
 default_color = Color(0.178677, 0.750792, 0, 1)
 
-[node name="Background" parent="." instance=ExtResource("3_7emq5")]
-
 [node name="Constants" type="Node" parent="."]
 
 [node name="KillDeserters" parent="." instance=ExtResource("5_1wbrc")]
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = -5
+
+[node name="Background" parent="CanvasLayer" instance=ExtResource("3_7emq5")]
+z_index = -4
+position = Vector2(992, 1104)
+scale = Vector2(0.8, 0.8)
 
 [node name="ending_credits" type="Label" parent="CanvasLayer"]
 offset_right = 40.0
