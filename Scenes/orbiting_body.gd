@@ -1,9 +1,11 @@
 class_name Orbiting_Body
 extends Node2D
 
+
 var draw_pot: bool = false
 var radius: float = 1.0
-const MAKE_PIXELS_BIGGER = 75
+
+const MAKE_PIXELS_BIGGER = 1
 const RED = Color(0.933333,0.615686,0.58039, 1.0)
 const ORANGE = Color(0.976470,0.796078,0.647058, 1.0)
 const YELLOW = Color(0.968627, 0.9372549, 0.505882, 1.0)
@@ -11,6 +13,7 @@ const GREEN = Color(0.709803,0.854901,0.72941, 1.0)
 const BLUE = Color(0.596078,0.780392,0.917647, 1.0)
 const PURPLE = Color(0.647058, 0.580392, 0.976470, 1.0)
 const GREY = Color(0.701960,0.780392,0.772549, 1.0)
+
 
 @onready var body := $"Planet Physics Body"
 
