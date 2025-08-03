@@ -18,6 +18,9 @@ texture = ExtResource("2_q2bmm")
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Alien"]
 polygon = PackedVector2Array(-28, 29, 28, 29, 0, -29)
 
-[node name="Timer" type="Timer" parent="."]
+[node name="BannerTimer" type="Timer" parent="."]
 
-[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[node name="AlarmTimer" type="Timer" parent="."]
+
+[connection signal="timeout" from="BannerTimer" to="." method="_on_banner_timer_timeout"]
+[connection signal="timeout" from="AlarmTimer" to="." method="_on_alarm_timer_timeout"]
