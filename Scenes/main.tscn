@@ -46,7 +46,6 @@ _data = {
 script = ExtResource("1_jjvhh")
 
 [node name="Ship_Scene" parent="." instance=ExtResource("2_8gbba")]
-visible = false
 a_scale = 1
 
 [node name="Planets" type="Node2D" parent="."]

@@ -1,0 +1,32 @@
+[gd_scene load_steps=5 format=3 uid="uid://b351seidof1xp"]
+
+[ext_resource type="Script" uid="uid://cuwxgpb4wixj4" path="res://Scenes/simple_orbit_level.gd" id="1_gey5f"]
+[ext_resource type="PackedScene" uid="uid://bi3dox85cb7bv" path="res://Scenes/ship_scene.tscn" id="2_ym8e4"]
+[ext_resource type="PackedScene" uid="uid://coys5brwnnnmh" path="res://Scenes/background.tscn" id="3_1pau3"]
+[ext_resource type="PackedScene" uid="uid://dosq8qqhso14o" path="res://Scenes/kill_deserters.tscn" id="5_plner"]
+
+[node name="Simple Orbit Level" type="Node2D"]
+script = ExtResource("1_gey5f")
+
+[node name="Ship_Scene" parent="." instance=ExtResource("2_ym8e4")]
+a_scale = 1
+
+[node name="Planets" type="Node2D" parent="."]
+
+[node name="linepath" type="Line2D" parent="."]
+points = PackedVector2Array(-312, 608)
+default_color = Color(0.178677, 0.750792, 0, 1)
+
+[node name="Background" parent="." instance=ExtResource("3_1pau3")]
+
+[node name="Constants" type="Node" parent="."]
+
+[node name="KillDeserters" parent="." instance=ExtResource("5_plner")]
+
+[node name="inner_radius" type="Line2D" parent="."]
+closed = true
+default_color = Color(1, 0, 0.216667, 1)
+
+[node name="outer_radius" type="Line2D" parent="."]
+closed = true
+default_color = Color(1, 0, 0.215686, 1)
