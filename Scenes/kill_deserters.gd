@@ -4,12 +4,15 @@ var warning_radius : float = 500.0
 var death_radius : float = 1000.0
 var has_entered_warning_zone : bool = false
 var has_entered_death_zone : bool = false
+var sound_player_alarm_generic = AudioStreamPlayer.new()
 const WARNING_FLASH_SECONDS = 2
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	get_node("Alien").reset_alien(2*death_radius)
 	get_node("Timer").set_one_shot(true)
+	sound_player_alarm_generic.stream = preload("res://Scenes/Alarm_generic.mp3")
+	add_child(sound_player_alarm_generic)
 
 func adjust_radii(warning_ : float, death_ : float) -> void:
 	warning_radius = clamp(warning_, 0, INF)
@@ -29,9 +32,10 @@ func store_ship_position_and_process(pos : Vector2) -> void:
 
 func flash_warning() -> void:
 	get_parent().get_node("Ship_Scene/CanvasLayer/DangerWarning").turn_on()
-
+	sound_player_alarm_generic.play()
 func remove_warning() -> void:
 	get_parent().get_node("Ship_Scene/CanvasLayer/DangerWarning").turn_off()
+	#sound_player_alarm_generic.stop()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
