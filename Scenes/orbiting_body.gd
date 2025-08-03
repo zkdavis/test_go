@@ -1,9 +1,9 @@
 class_name Orbiting_Body
 extends Node2D
 
-var draw_pot: bool = true
+var draw_pot: bool = false
 var radius: float = 1.0
-const MAGIC_FUDGE_FACTOR_DUE_TO_IMAGE_SIZE = 10.0/0.625
+const MAKE_PIXELS_BIGGER = 75
 const RED = Color(0.933333,0.615686,0.58039)
 const ORANGE = Color(0.976470,0.796078,0.647058)
 const GREEN = Color(0.709803,0.854901,0.72941)
@@ -24,8 +24,6 @@ func _ready() -> void:
 	body.custom_integrator = true
 	body.set_use_custom_integrator(true)
 	body.z_index=0
-
-
 
 func _draw():
 	if(draw_pot):
@@ -57,15 +55,19 @@ func _draw():
 
 				draw_polygon([p1, p2, p3, p4], [color, color, color, color])
 
-func _update_scale(radius_):
-	$"Planet Physics Body"/Sprite2D.scale = Vector2.ONE*radius_
-	$"Planet Physics Body"/CollisionShape2D.shape.radius = MAGIC_FUDGE_FACTOR_DUE_TO_IMAGE_SIZE*radius_
+func _update_scale(radius_) -> void:
+	var sprite_radius = get_node("Planet Physics Body/Sprite2D").texture.get_size().x/2
+	get_node("Planet Physics Body/Sprite2D").scale = Vector2.ONE*(radius_/sprite_radius)*MAKE_PIXELS_BIGGER
+	get_node("Planet Physics Body/CollisionShape2D").shape.radius = radius_*MAKE_PIXELS_BIGGER
 
 
 func setup(mass_ : float, radius_ : float, 
 init_pos_ = Vector2(0,0), init_vel_ = Vector2(0,0), omega_ = 0) -> void:
 	body.mass = mass_
 	self.radius = radius_
+	var collision_shape = body.get_node("CollisionShape2D")
+	if collision_shape and collision_shape.shape:
+		collision_shape.shape = collision_shape.shape.duplicate()
 	_update_scale(radius_)
 	body.angular_velocity = omega_
 	body.position = init_pos_

@@ -23,10 +23,8 @@ script = ExtResource("2_8ijym")
 
 [node name="Sprite2D" type="Sprite2D" parent="Planet Physics Body"]
 position = Vector2(-5.96046e-08, 5.96046e-08)
-scale = Vector2(0.625, 0.625)
 texture = ExtResource("3_8ijym")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Planet Physics Body"]
 position = Vector2(6.10352e-05, 1.52588e-05)
-scale = Vector2(5.24, 5.24)
 shape = SubResource("CircleShape2D_0egr7")
