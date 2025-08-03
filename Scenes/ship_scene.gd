@@ -35,7 +35,8 @@ const oriented_dead_spead=1
 var ship_exploded_time=0
 
 var change_orb_potent=false
-
+var is_booster_on = false
+var is_booster_on_previous = false
 
 #zoom items
 var zoomup = false
@@ -45,13 +46,33 @@ var velocity_zoom = true
 var dt_int = 0.003
 var show_path=true
 
+#sound items
+var sound_player_explosion = AudioStreamPlayer.new()	# Explosion sound
+var sound_player_rocket_booster = AudioStreamPlayer.new()	# Booster sound
+var sound_player_fuel_low_warning = AudioStreamPlayer.new()	# Fuel low warning
+var sound_player_generic_button_pressed = AudioStreamPlayer.new()
+var fuel_low_warning_on = false
+
 
 func _ready() -> void:
 	$CharacterBody2D/Camera2D.make_current()
 	$CharacterBody2D/CollisionPolygon2D.scale = $CharacterBody2D/CollisionPolygon2D.scale*Constants.ship_size
 	$CharacterBody2D/Sprite2D.scale = $CharacterBody2D/Sprite2D.scale*Constants.ship_size
 	$CharacterBody2D/CollisionPolygon2D.position -= Vector2(1,29)*Constants.ship_size
-
+	#sound items
+	sound_player_explosion.stream = preload("res://Scenes/Explosion.wav")
+	sound_player_explosion.volume_db = -10
+	add_child(sound_player_explosion)
+	sound_player_rocket_booster.stream = preload("res://Scenes/Rocket_booster.wav")
+	sound_player_rocket_booster.volume_db = -5
+	add_child(sound_player_rocket_booster)
+	sound_player_fuel_low_warning.stream = preload("res://Scenes/Fuel_low_warning.wav")
+	sound_player_fuel_low_warning.volume_db = -5
+	add_child(sound_player_fuel_low_warning)
+	sound_player_generic_button_pressed.stream = preload("res://Scenes/generic_button_sound.wav")
+	sound_player_generic_button_pressed.volume_db = -5
+	add_child(sound_player_generic_button_pressed)
+	
 func set_current_animation():
 	var cur_an = $CharacterBody2D/Sprite2D.animation
 	var sprite: AnimatedSprite2D = $CharacterBody2D/Sprite2D
@@ -119,7 +140,12 @@ func get_input(delta):
 		change_orb_potent = true
 	
 	if restart:
+		## Remove sound components before restart level
+		
+		stop_all_sounds()
 		get_tree().reload_current_scene()
+		
+			
 	
 	if mid_mouse:
 		velocity_zoom = !velocity_zoom
@@ -238,14 +264,21 @@ func explode_ship(delta):
 	var explosion_sprite:AnimatedSprite2D = $CharacterBody2D/explosion
 	calc_forces = false
 	ship_exploded_time += delta
+	get_parent().get_node("KillDeserters/Alien").linear_velocity = Vector2.ZERO
+	get_parent().get_node("KillDeserters/Alien").acceleration =0.0
 	if explosion_sprite.visible == false:
 		explosion_sprite.visible=true
 		explosion_sprite.play('default')
+		sound_player_explosion.play()		## play sound
+		await get_tree().create_timer(2.0).timeout	
+		sound_player_explosion.stop()		## stop sound
+		
 	if ship_exploded_time > 1.5:
 		if $CanvasLayer/RestartText.visible == false:
 			$CanvasLayer/RestartText.visible = true
 		if ship_sprite.visible:
 			ship_sprite.visible = false
+			get_parent().get_node("KillDeserters/Alien").visible = false
 	if ship_exploded_time > 5:
 		if explosion_sprite.visible:
 			explosion_sprite.visible = false
@@ -285,6 +318,7 @@ func alignment_mode_update(delta):
 	else:
 		rotate_ship('stop')
 	
+	
 
 func _physics_process(delta: float) -> void:
 	if line == null:
@@ -304,6 +338,7 @@ func _physics_process(delta: float) -> void:
 	
 	if ship_exploded_time>0:
 		explode_ship(delta)
+		
 	
 	if alignment_mode_status!=0:
 		alignment_mode_update(delta)
@@ -318,6 +353,18 @@ func _physics_process(delta: float) -> void:
 	
 	bods = []
 	
+		# Booster sound on/off
+	if animation_thrust_vect.length() > 0:
+		is_booster_on = true
+		if is_booster_on != is_booster_on_previous:
+			sound_player_rocket_booster.play()
+		is_booster_on_previous = is_booster_on
+	else:
+		is_booster_on = false
+		if is_booster_on != is_booster_on_previous:
+			sound_player_rocket_booster.stop()
+		is_booster_on_previous = is_booster_on
+
 	
 	
 	
@@ -348,8 +395,12 @@ func _physics_process(delta: float) -> void:
 		
 	fuel_consumed_accumulator += LINEAR_THRUST_TO_FUEL_CONSUMPTION_RATE*abs(thrust_int)*delta
 	decrement_fuel()
+	
+	
+		
 
 func decrement_fuel() -> void:
+	
 	if fuel_consumed_accumulator > 1:
 		fuel_consumed_accumulator = 0
 		$CanvasLayer/FuelBar.reduce()
@@ -357,3 +408,11 @@ func decrement_fuel() -> void:
 		thrust_int = 0
 		$CanvasLayer/ThrustBar.set_thrust(thrust_int)
 		$CanvasLayer/ThrustBar.deactivate()
+	if $CanvasLayer/FuelBar.fuel < 50 and fuel_low_warning_on == false:
+		fuel_low_warning_on = true;
+		sound_player_fuel_low_warning.play()
+func stop_all_sounds() -> void:
+	sound_player_explosion.stop()
+	sound_player_rocket_booster.stop()
+	sound_player_fuel_low_warning.stop()
+	

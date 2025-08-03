@@ -66,3 +66,4 @@ func _physics_process(_delta: float) -> void:
 			var force = calculate_gravitational_force(target, source)
 			target.apply_force(force)
 			source.apply_force(-force)
+	$KillDeserters.store_ship_position_and_process($Ship_Scene/CharacterBody2D.global_position)
