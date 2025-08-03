@@ -1,18 +1,15 @@
 extends Node2D
 
 @export var a_scale = 0
-@export var thrust_scale = 50
-@export var thrust_scale_rotate = 0.01
-@export var mass = 1
 
-const LINEAR_THRUST_TO_FUEL_CONSUMPTION_RATE = 1
-const ANGULAR_THRUST_TO_FUEL_CONSUMPTION = 0.01
+var LINEAR_THRUST_TO_FUEL_CONSUMPTION_RATE = 1
+var ANGULAR_THRUST_TO_FUEL_CONSUMPTION = 0.01
 
-
+const mass = Constants.ship_mass
 var gravity = Vector2(0,1)*a_scale
 var calc_forces = true
-var main_thrust = 0*thrust_scale
-var thrust_rotate = 0.0*thrust_scale_rotate
+var main_thrust = 0*Constants.thrust_scale
+var thrust_rotate = 0.0*Constants.thrust_scale_rotate
 var thrust_int: int = 0
 var max_thrust_int: int = 20
 var orientation = Vector2(0,-1)
@@ -75,7 +72,7 @@ func set_current_animation():
 	
 	
 func rotate_ship(direct:String,modified_rotation=1):
-	if thrust_scale != 0:
+	if $CanvasLayer/FuelBar.out_of_fuel() == false:
 		if direct=='right':
 			$CharacterBody2D.rotation += 0.1*modified_rotation
 			fuel_consumed_accumulator += ANGULAR_THRUST_TO_FUEL_CONSUMPTION*modified_rotation
@@ -162,7 +159,7 @@ func get_input(delta):
 	else:
 		animation_thrust_vect.y = 0
 
-	main_thrust = thrust_int*thrust_scale
+	main_thrust = thrust_int*Constants.thrust_scale
 	
 	if right:
 		rotate_ship('right')
@@ -180,7 +177,6 @@ func get_input(delta):
 	
 	
 func cal_fg(bodies,pos,m) -> Vector2:
-	var G = 10000 ## GConstant
 	var force = Vector2(0,0)
 	for b in bodies:
 		var direction = b.get_pos() - pos
@@ -188,7 +184,7 @@ func cal_fg(bodies,pos,m) -> Vector2:
 		if distance <= 1e-1:
 			print("fuck")
 			return Vector2.ZERO ## Safeguard
-		var force_magnitude = G * b.get_mass() * m / (distance*distance)
+		var force_magnitude = Constants.G * b.get_mass() * m / (distance*distance)
 		force += direction.normalized() * force_magnitude
 	return force/m
 	
@@ -206,7 +202,7 @@ func get_xn1(fg,v0,x0):
 	var xn1 = vn1*self.dt_int + x0 
 	return xn1
 
-func get_trajectory(total_t=8):
+func get_trajectory(total_t=4):
 	var t = 0
 	var xn1=$CharacterBody2D.position
 	var vn1 = $CharacterBody2D.velocity
@@ -232,7 +228,7 @@ func check_ship(col_info: KinematicCollision2D):
 	var angle_to_y = acos(col_to_ship.dot(Vector2(0,-1)))
 	var angle_in_deg = rad_to_deg(angle_to_y)
 	var ship_angle = rad_to_deg($CharacterBody2D.rotation)
-	if abs(ship_angle - angle_in_deg) <45:
+	if abs(ship_angle - angle_in_deg) <75:
 		return false
 	else:
 		return true
@@ -359,6 +355,5 @@ func decrement_fuel() -> void:
 		$CanvasLayer/FuelBar.reduce()
 	if $CanvasLayer/FuelBar.out_of_fuel():
 		thrust_int = 0
-		thrust_scale = 0
 		$CanvasLayer/ThrustBar.set_thrust(thrust_int)
 		$CanvasLayer/ThrustBar.deactivate()
