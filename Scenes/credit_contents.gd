@@ -1,6 +1,6 @@
 extends RichTextLabel
 
-var sound_player_BGM_ending_credit = AudioStreamPlayer.new()
+
 var credit_text = "[center]
 [b]Game Design[/b]
 ZD, MV, HC
@@ -42,10 +42,7 @@ Tri-Tone Text Alert         by        ScottyD0ES
 
 func _ready()->void:
 	scroll_text(credit_text)
-	sound_player_BGM_ending_credit.stream = preload("res://Scenes/Late Night Radio.mp3")
-	sound_player_BGM_ending_credit.volume_linear = 0.2
-	add_child(sound_player_BGM_ending_credit)
-	sound_player_BGM_ending_credit.play()
+	$"../../../AudioStreamPlayer".play()
 
 func scroll_text(input_text:String)->void:
 	visible_characters = 0;

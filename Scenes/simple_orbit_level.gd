@@ -55,6 +55,8 @@ func _ready() -> void:
 	$Ship_Scene.get_node("CharacterBody2D/Camera2D").zoom=Vector2(0.8,0.8)
 	$linepath.width = 10
 	
+	$AudioStreamPlayer.play()
+	
 	var instr = $Ship_Scene/CanvasLayer/instructutions
 	instr.get_node("Label").add_theme_font_size_override("font_size", 15)
 	instr.get_node("Label").text = "Low orbit satellites are needed for communication with Earth. Be sure to say with in the marked region for 20 seconds to deploy them. Press Enter to start. \n \n PRESS ENTER TO START \n \n  Hint: start by getting the peak of you arc into the region and then circulizing your orbit from the peak."

@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://b8eemstrpc83x"
+path="res://.godot/imported/Stay the Course.mp3-375b1dc1daa3c04959e8d150116b1afe.mp3str"
+
+[deps]
+
+source_file="res://Scenes/Stay the Course.mp3"
+dest_files=["res://.godot/imported/Stay the Course.mp3-375b1dc1daa3c04959e8d150116b1afe.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0.0
+bpm=0.0
+beat_count=0
+bar_beats=4

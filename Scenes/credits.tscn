@@ -1,10 +1,11 @@
-[gd_scene load_steps=9 format=3 uid="uid://di8elhj0pvbro"]
+[gd_scene load_steps=10 format=3 uid="uid://di8elhj0pvbro"]
 
 [ext_resource type="Script" uid="uid://bois0fhhtdspo" path="res://Scenes/credits.gd" id="1_xelri"]
 [ext_resource type="PackedScene" uid="uid://bi3dox85cb7bv" path="res://Scenes/ship_scene.tscn" id="2_uah1q"]
 [ext_resource type="PackedScene" uid="uid://coys5brwnnnmh" path="res://Scenes/background.tscn" id="3_7emq5"]
 [ext_resource type="Script" uid="uid://b47a8hy7h1cj7" path="res://Scenes/credit_contents.gd" id="4_803yc"]
 [ext_resource type="PackedScene" uid="uid://dosq8qqhso14o" path="res://Scenes/kill_deserters.tscn" id="5_1wbrc"]
+[ext_resource type="AudioStream" uid="uid://qib005e4x02c" path="res://Scenes/Late Night Radio.mp3" id="6_uah1q"]
 
 [sub_resource type="Animation" id="Animation_kry3j"]
 length = 0.001
@@ -78,7 +79,8 @@ layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -800.0
+offset_left = -1920.0
+offset_right = -1120.0
 offset_bottom = 1000.0
 grow_horizontal = 0
 bbcode_enabled = true
@@ -121,3 +123,9 @@ Tri-Tone Text Alert         by        ScottyD0ES
 
 [b][i]Thank you for playing![/i][/b]"
 script = ExtResource("4_803yc")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_uah1q")
+volume_db = -26.0
+autoplay = true
+parameters/looping = true

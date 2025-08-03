@@ -40,6 +40,7 @@ func _ready() -> void:
 	$Ship_Scene.LINEAR_THRUST_TO_FUEL_CONSUMPTION_RATE = 1*$Ship_Scene.LINEAR_THRUST_TO_FUEL_CONSUMPTION_RATE
 	$Ship_Scene.ANGULAR_THRUST_TO_FUEL_CONSUMPTION = 1*$Ship_Scene.ANGULAR_THRUST_TO_FUEL_CONSUMPTION
 	
+	$AudioStreamPlayer.play()
 	
 	var circle_points = []
 	var circle_points_outer = []

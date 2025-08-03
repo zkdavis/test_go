@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://ukl4evoor0rr"]
+[gd_scene load_steps=6 format=3 uid="uid://ukl4evoor0rr"]
 
 [ext_resource type="Script" uid="uid://rsv3lklxbenv" path="res://Scenes/level_2_scene.gd" id="1_1q6tm"]
 [ext_resource type="PackedScene" uid="uid://bi3dox85cb7bv" path="res://Scenes/ship_scene.tscn" id="1_12fag"]
 [ext_resource type="PackedScene" uid="uid://coys5brwnnnmh" path="res://Scenes/background.tscn" id="2_1q6tm"]
 [ext_resource type="PackedScene" uid="uid://dosq8qqhso14o" path="res://Scenes/kill_deserters.tscn" id="3_v36qu"]
+[ext_resource type="AudioStream" uid="uid://b8eemstrpc83x" path="res://Scenes/Stay the Course.mp3" id="5_v36qu"]
 
 [node name="Level2" type="Node2D"]
 script = ExtResource("1_1q6tm")
@@ -21,3 +22,9 @@ default_color = Color(0.178677, 0.750792, 0, 1)
 [node name="Constants" type="Node" parent="."]
 
 [node name="KillDeserters" parent="." instance=ExtResource("3_v36qu")]
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_v36qu")
+volume_db = -26.0
+autoplay = true
+parameters/looping = true

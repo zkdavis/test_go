@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://b351seidof1xp"]
+[gd_scene load_steps=6 format=3 uid="uid://b351seidof1xp"]
 
 [ext_resource type="Script" uid="uid://cuwxgpb4wixj4" path="res://Scenes/simple_orbit_level.gd" id="1_gey5f"]
 [ext_resource type="PackedScene" uid="uid://bi3dox85cb7bv" path="res://Scenes/ship_scene.tscn" id="2_ym8e4"]
 [ext_resource type="PackedScene" uid="uid://coys5brwnnnmh" path="res://Scenes/background.tscn" id="3_1pau3"]
+[ext_resource type="AudioStream" uid="uid://b8eemstrpc83x" path="res://Scenes/Stay the Course.mp3" id="5_gey5f"]
 [ext_resource type="PackedScene" uid="uid://dosq8qqhso14o" path="res://Scenes/kill_deserters.tscn" id="5_plner"]
 
 [node name="Simple Orbit Level" type="Node2D"]
@@ -30,3 +31,8 @@ default_color = Color(1, 0, 0.216667, 1)
 [node name="outer_radius" type="Line2D" parent="."]
 closed = true
 default_color = Color(1, 0, 0.215686, 1)
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_gey5f")
+volume_db = -26.0
+parameters/looping = true

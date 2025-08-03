@@ -15,7 +15,7 @@ func _ready() -> void:
 	var mass_sun  = 5000
 	$KillDeserters.adjust_radii(radius_of_sun*10,radius_of_sun*20)
 	
-	
+	$AudioStreamPlayer.play()
 	var center = get_window().size/2
 	var p1 = ob_scene.instantiate() as Orbiting_Body
 	
