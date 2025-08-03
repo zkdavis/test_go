@@ -16,12 +16,11 @@ func _ready() -> void:
 
 
 func calculate_gravitational_force(target : Orbiting_Body, source : Orbiting_Body) -> Vector2:
-	var G = 10000 ## GConstant
 	var direction = target.get_pos() - source.get_pos()
 	var distance = direction.length()
 	if distance == 0:
 		return Vector2.ZERO ## Safeguard
-	var force_magnitude = G * target.get_mass() * source.get_mass() / (distance*distance)
+	var force_magnitude = Constants.G * target.get_mass() * source.get_mass() / (distance*distance)
 	return -direction.normalized() * force_magnitude
 
 func _physics_process(_delta: float) -> void:

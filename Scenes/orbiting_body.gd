@@ -1,14 +1,19 @@
 class_name Orbiting_Body
 extends Node2D
 
+
 var draw_pot: bool = false
 var radius: float = 1.0
-const MAKE_PIXELS_BIGGER = 75
-const RED = Color(0.933333,0.615686,0.58039)
-const ORANGE = Color(0.976470,0.796078,0.647058)
-const GREEN = Color(0.709803,0.854901,0.72941)
-const BLUE = Color(0.596078,0.780392,0.917647)
-const GREY = Color(0.701960,0.780392,0.772549)
+
+const MAKE_PIXELS_BIGGER = 1
+const RED = Color(0.933333,0.615686,0.58039, 1.0)
+const ORANGE = Color(0.976470,0.796078,0.647058, 1.0)
+const YELLOW = Color(0.968627, 0.9372549, 0.505882, 1.0)
+const GREEN = Color(0.709803,0.854901,0.72941, 1.0)
+const BLUE = Color(0.596078,0.780392,0.917647, 1.0)
+const PURPLE = Color(0.647058, 0.580392, 0.976470, 1.0)
+const GREY = Color(0.701960,0.780392,0.772549, 1.0)
+
 
 @onready var body := $"Planet Physics Body"
 
@@ -92,19 +97,32 @@ func apply_force(f : Vector2) -> void:
 	body.force += f
 
 func set_color(r : float, g : float, b : float) -> void:
-	get_node("Planet Physics Body/Sprite2D").modulate = Color(r, g, b, 1.0)
+	self.get_node("Planet Physics Body/Sprite2D").self_modulate = Color(r, g, b, 1.0)
+	self.z_index = 1
+	self.visibility_layer = 1
+
+func set_color_direct(c : Color) -> void:
+	self.get_node("Planet Physics Body/Sprite2D").self_modulate = c
+	self.z_index = 1
+	self.visibility_layer = 1
 
 func set_red() -> void:
-	get_node("Planet Physics Body/Sprite2D").modulate = RED
+	set_color_direct(RED)
 
 func set_orange() -> void:
-	get_node("Planet Physics Body/Sprite2D").modulate = ORANGE
+	set_color_direct(ORANGE)
+
+func set_yellow() -> void:
+	set_color_direct(YELLOW)
 
 func set_green() -> void:
-	get_node("Planet Physics Body/Sprite2D").modulate = GREEN
+	set_color_direct(GREEN)
 
 func set_blue() -> void:
-	get_node("Planet Physics Body/Sprite2D").modulate = BLUE
+	set_color_direct(BLUE)
+
+func set_purple() -> void:
+	set_color_direct(PURPLE)
 
 func set_grey() -> void:
-	get_node("Planet Physics Body/Sprite2D").modulate = GREY
+	set_color_direct(GREY)

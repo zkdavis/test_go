@@ -1,7 +1,6 @@
 [gd_scene load_steps=101 format=3 uid="uid://bi3dox85cb7bv"]
 
 [ext_resource type="Script" uid="uid://xd4i7fvjdw7i" path="res://Scenes/ship_scene.gd" id="1_8g17m"]
-[ext_resource type="Script" uid="uid://dvgyw5lidoj85" path="res://Scenes/ship_body.gd" id="2_eju44"]
 [ext_resource type="Texture2D" uid="uid://cfq4idhgkr1jr" path="res://Assets/Sprites/Spaceship_default.png" id="3_7i1sl"]
 [ext_resource type="Texture2D" uid="uid://jyw2orxwetho" path="res://Assets/Sprites/Spaceship_rear_left.png" id="3_ywq8u"]
 [ext_resource type="PackedScene" uid="uid://bxn7ef02kegfo" path="res://Scenes/fuel_bar.tscn" id="4_eqixp"]
@@ -18,6 +17,7 @@
 [ext_resource type="Texture2D" uid="uid://vencbknaq43j" path="res://Assets/Sprites/Explosion_003_Tile_8x8_256x256.png" id="13_d0v4o"]
 [ext_resource type="Texture2D" uid="uid://bgyyl1qnvup8d" path="res://Assets/Sprites/exp2_0.png" id="14_fe11j"]
 [ext_resource type="Script" uid="uid://8rrhfyo1bo2o" path="res://Scenes/alignment_label.gd" id="16_fe11j"]
+[ext_resource type="Script" path="res://Scenes/danger_warning.gd" id="19_sft3b"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_d0v4o"]
 animations = [{
@@ -684,10 +684,8 @@ script = ExtResource("1_8g17m")
 [node name="CharacterBody2D" type="CharacterBody2D" parent="."]
 collision_layer = 2
 collision_mask = 7
-script = ExtResource("2_eju44")
 
 [node name="Sprite2D" type="AnimatedSprite2D" parent="CharacterBody2D"]
-position = Vector2(0, 29)
 scale = Vector2(0.0876494, 0.1275)
 sprite_frames = SubResource("SpriteFrames_d0v4o")
 animation = &"1_0"
@@ -754,5 +752,19 @@ theme_override_font_sizes/bold_italics_font_size = 9
 theme_override_font_sizes/normal_font_size = 47
 text = "To restart press R"
 autowrap_mode = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="DangerWarning" type="ColorRect" parent="CanvasLayer"]
+offset_top = 304.0
+offset_right = 1280.0
+offset_bottom = 415.0
+color = Color(0.741176, 0, 0, 0.501961)
+script = ExtResource("19_sft3b")
+
+[node name="Label" type="Label" parent="CanvasLayer/DangerWarning"]
+layout_mode = 0
+offset_right = 1282.0
+offset_bottom = 109.0
 horizontal_alignment = 1
 vertical_alignment = 1

@@ -14,12 +14,12 @@ func setup(file, layer: int, speed: float) -> void:
 	self.add_child(rect)
 	rect.set_size(box)
 	rect.set_texture(pictex)
-	visibility_layer = layer
+	self.visibility_layer = layer
 	#set_ignore_camera_scroll(true)
 	set_ignore_camera_scroll(false)
 	set_repeat_size(box)
 	set_scroll_scale(Vector2.ONE*speed)
-	set_repeat_times(8)
+	set_repeat_times(Constants.background_repeat)
 
 func _process(delta: float) -> void:
 	pass
