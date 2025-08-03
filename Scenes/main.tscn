@@ -1,28 +1,10 @@
-[gd_scene load_steps=10 format=3 uid="uid://eypmw80qoj3s"]
+[gd_scene load_steps=9 format=3 uid="uid://eypmw80qoj3s"]
 
 [ext_resource type="Script" uid="uid://b4fq84nvi4hgv" path="res://Scenes/main.gd" id="1_jjvhh"]
 [ext_resource type="PackedScene" uid="uid://bi3dox85cb7bv" path="res://Scenes/ship_scene.tscn" id="2_8gbba"]
 [ext_resource type="PackedScene" uid="uid://coys5brwnnnmh" path="res://Scenes/background.tscn" id="3_jjvhh"]
-
-[ext_resource type="Script" uid="uid://caqmepepv3i8v" path="res://Scenes/ending_credits.gd" id="4_jjvhh"]
-[ext_resource type="Script" uid="uid://b47a8hy7h1cj7" path="res://Scenes/credit_contents.gd" id="5_kry3j"]
 [ext_resource type="PackedScene" uid="uid://dosq8qqhso14o" path="res://Scenes/kill_deserters.tscn" id="4_jjvhh"]
-
-
-[sub_resource type="Animation" id="Animation_jjvhh"]
-resource_name = "Scroll_animation"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("credit_contents:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(5.13333),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(0, 0)]
-}
+[ext_resource type="Script" uid="uid://b47a8hy7h1cj7" path="res://Scenes/credit_contents.gd" id="5_kry3j"]
 
 [sub_resource type="Animation" id="Animation_kry3j"]
 length = 0.001
@@ -39,6 +21,21 @@ tracks/0/keys = {
 "values": [Vector2(0, 0)]
 }
 
+[sub_resource type="Animation" id="Animation_jjvhh"]
+resource_name = "Scroll_animation"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("credit_contents:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(5.13333),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_kry3j"]
 _data = {
 &"RESET": SubResource("Animation_kry3j"),
@@ -49,6 +46,7 @@ _data = {
 script = ExtResource("1_jjvhh")
 
 [node name="Ship_Scene" parent="." instance=ExtResource("2_8gbba")]
+visible = false
 a_scale = 1
 
 [node name="Planets" type="Node2D" parent="."]
@@ -62,7 +60,6 @@ default_color = Color(0.178677, 0.750792, 0, 1)
 offset_right = 40.0
 offset_bottom = 23.0
 autowrap_mode = 2
-script = ExtResource("4_jjvhh")
 
 [node name="ending_credit_player" type="AnimationPlayer" parent="ending_credits"]
 libraries = {
@@ -118,4 +115,3 @@ script = ExtResource("5_kry3j")
 [node name="Constants" type="Node" parent="."]
 
 [node name="KillDeserters" parent="." instance=ExtResource("4_jjvhh")]
-

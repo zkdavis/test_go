@@ -45,7 +45,6 @@ func _ready()->void:
 	sound_player_BGM_ending_credit.stream = preload("res://Scenes/Late Night Radio.mp3")
 	add_child(sound_player_BGM_ending_credit)
 	sound_player_BGM_ending_credit.play()
-	pass
 
 func scroll_text(input_text:String)->void:
 	visible_characters = 0;
