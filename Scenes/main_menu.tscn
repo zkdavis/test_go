@@ -109,8 +109,8 @@ anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
 offset_left = 15.0
-offset_top = -504.0
-offset_right = 400.0
+offset_top = -632.0
+offset_right = 488.0
 offset_bottom = -8.0
 grow_vertical = 0
 color = Color(0.172833, 0.172833, 0.172833, 0.376471)
@@ -119,8 +119,8 @@ color = Color(0.172833, 0.172833, 0.172833, 0.376471)
 layout_mode = 1
 offset_left = 7.0
 offset_top = 8.0
-offset_right = 377.0
-offset_bottom = 488.0
+offset_right = 457.0
+offset_bottom = 608.0
 theme_override_colors/default_color = Color(0, 0.741176, 0, 1)
 text = "Controls:
 
@@ -130,6 +130,8 @@ A: Rotate Left
 D: Rotate Right
 Q: Cut Throttle
 Enter: Continue
+L: Next Level
+J: previous Level
 
 R: Restart - You can restart anytime
 
@@ -141,10 +143,14 @@ Scroll: Zoom - If Auto-Zoom is off
 "
 
 [node name="ColorRect3" type="ColorRect" parent="CanvasLayer"]
-offset_left = 16.0
-offset_top = 384.0
-offset_right = 336.0
-offset_bottom = 552.0
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -488.0
+offset_top = 72.0
+offset_right = -168.0
+offset_bottom = 240.0
+grow_horizontal = 0
 color = Color(0.172833, 0.172833, 0.172833, 0.376471)
 
 [node name="RichTextLabel" type="RichTextLabel" parent="CanvasLayer/ColorRect3"]

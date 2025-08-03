@@ -141,6 +141,15 @@ func get_input(delta):
 	var align_pressed = Input.is_action_just_pressed("alignment_toggle_mode")
 	var change_orb_pot = Input.is_action_just_pressed("change_orb_pot")
 	var kill_thrust = Input.is_action_just_pressed('kill_thrust')
+	var next_scene = Input.is_action_just_pressed('next_scene')
+	var prev_scene = Input.is_action_just_pressed('prev_scene')
+
+	
+	if next_scene:
+		self.get_parent().next_scene()
+	
+	if prev_scene:
+		self.get_parent().prev_scene()
 	
 	var cur_animation = $CharacterBody2D/Sprite2D.animation
 	
