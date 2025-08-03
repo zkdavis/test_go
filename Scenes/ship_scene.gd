@@ -55,6 +55,7 @@ var sound_player_rocket_booster = AudioStreamPlayer.new()	# Booster sound
 var sound_player_fuel_low_warning = AudioStreamPlayer.new()	# Fuel low warning
 var sound_player_generic_button_pressed = AudioStreamPlayer.new()
 var fuel_low_warning_on = false
+var shhhhh = true
 
 
 func _ready() -> void:
@@ -279,10 +280,11 @@ func explode_ship(delta):
 	get_parent().get_node("KillDeserters/Alien").acceleration =0.0
 	if explosion_sprite.visible == false:
 		explosion_sprite.visible=true
-		explosion_sprite.play('default')
-		sound_player_explosion.play()		## play sound
-		await get_tree().create_timer(2.0).timeout	
-		sound_player_explosion.stop()		## stop sound
+		if !shhhhh:
+			explosion_sprite.play('default')
+			sound_player_explosion.play()		## play sound
+			await get_tree().create_timer(2.0).timeout	
+			sound_player_explosion.stop()		## stop sound
 		
 	if ship_exploded_time > 1.5:
 		if $CanvasLayer/RestartText.visible == false:
@@ -368,7 +370,8 @@ func _physics_process(delta: float) -> void:
 	if animation_thrust_vect.length() > 0:
 		is_booster_on = true
 		if is_booster_on != is_booster_on_previous:
-			sound_player_rocket_booster.play()
+			if !shhhhh:
+				sound_player_rocket_booster.play()
 		is_booster_on_previous = is_booster_on
 	else:
 		is_booster_on = false
@@ -421,7 +424,8 @@ func decrement_fuel() -> void:
 		$CanvasLayer/ThrustBar.deactivate()
 	if $CanvasLayer/FuelBar.fuel < Constants.fuel_low_warning and fuel_low_warning_on == false:
 		fuel_low_warning_on = true;
-		sound_player_fuel_low_warning.play()
+		if !shhhhh:
+			sound_player_fuel_low_warning.play()
 func stop_all_sounds() -> void:
 	sound_player_explosion.stop()
 	sound_player_rocket_booster.stop()
