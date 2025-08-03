@@ -3,7 +3,7 @@ extends ColorRect
 var is_on = false
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	$Label.add_theme_font_size_override("font_size", 15)
+	$Label.add_theme_font_size_override("font_size", 35)
 	$Label.text = "Success! Press Enter to Continue"
 	visibility_layer = 0
 

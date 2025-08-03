@@ -797,7 +797,7 @@ offset_right = 640.0
 offset_bottom = 55.5
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0, 1, 1, 1)
+color = Color(1, 0.869701, 0.404597, 1)
 script = ExtResource("19_ggjaj")
 
 [node name="Label" type="Label" parent="CanvasLayer/Success"]
